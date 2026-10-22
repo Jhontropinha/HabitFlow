@@ -1,0 +1,417 @@
+/* Centraliza as cores para facilitar alterações na identidade visual. */
+:root {
+  --azul: #2424eb;
+  --azul-escuro: #1919b7;
+  --texto: #101322;
+  --texto-suave: #5c6272;
+  --borda: #e7e9f0;
+  --fundo-suave: #f6f7ff;
+}
+
+/* Inclui bordas e preenchimento na largura definida dos elementos. */
+* {
+  box-sizing: border-box;
+}
+
+/* Suaviza a navegação para as seções Recursos e Dúvidas. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--texto);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Destaca o elemento selecionado durante a navegação pelo teclado. */
+a:focus-visible,
+summary:focus-visible,
+.tabela-container:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 5px;
+}
+
+/* Limita a largura do conteúdo e mantém margens nas laterais. */
+.cabecalho,
+main,
+.rodape {
+  width: min(1200px, 90%);
+  margin-inline: auto;
+}
+
+/* Organiza marca, navegação e acesso ao painel na mesma linha. */
+.cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  padding-block: 28px;
+}
+
+.logo {
+  color: var(--azul);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.cabecalho nav {
+  display: flex;
+  gap: 32px;
+}
+
+.cabecalho nav a:hover {
+  color: var(--azul);
+}
+
+/* Empurra o acesso ao painel para o lado direito do cabeçalho. */
+.acesso {
+  margin-left: auto;
+  padding: 10px 18px;
+  background: var(--fundo-suave);
+  color: var(--azul);
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.acesso:hover {
+  background: #e8eaff;
+}
+
+/* Divide a apresentação em duas colunas de mesma largura. */
+.apresentacao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 56px;
+  min-height: 680px;
+  padding-block: 70px;
+}
+
+.etiqueta {
+  margin: 0 0 16px;
+  color: var(--azul);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Ajusta o título à tela, respeitando os limites de 40px e 64px. */
+h1 {
+  margin: 0 0 28px;
+  font-size: clamp(40px, 4.5vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -2px;
+}
+
+h1 span {
+  color: var(--azul);
+  text-decoration: underline;
+  text-decoration-color: #c3c3ff;
+  text-decoration-thickness: 5px;
+  text-underline-offset: 9px;
+}
+
+.descricao {
+  max-width: 540px;
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 17px;
+}
+
+.beneficios {
+  display: grid;
+  gap: 10px;
+  margin-block: 26px;
+  padding: 0;
+  list-style: none;
+}
+
+.beneficios li {
+  position: relative;
+  padding-left: 28px;
+}
+
+/* Acrescenta a marca de verificação sem repetir símbolos no HTML. */
+.beneficios li::before {
+  position: absolute;
+  left: 0;
+  color: var(--azul);
+  font-weight: 700;
+  content: "✓";
+}
+
+.botao {
+  display: inline-block;
+  padding: 13px 28px;
+  background: var(--azul);
+  color: #fff;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.botao:hover {
+  background: var(--azul-escuro);
+}
+
+.observacao {
+  margin-top: 18px;
+  color: var(--texto-suave);
+  font-size: 13px;
+}
+
+/* min-width evita que a tabela force a coluna a ultrapassar a tela. */
+.previa {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgb(36 36 100 / 8%);
+}
+
+.previa-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 24px 10px;
+}
+
+.previa .etiqueta {
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+
+.previa h2 {
+  max-width: 280px;
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.selo {
+  padding: 4px 10px;
+  background: var(--fundo-suave);
+  color: var(--azul);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.aviso-previa {
+  margin: 0;
+  padding: 6px 24px 20px;
+  color: var(--texto-suave);
+  font-size: 12px;
+}
+
+/* Mantém a rolagem horizontal restrita à tabela. */
+.tabela-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+caption {
+  padding: 10px;
+  background: var(--fundo-suave);
+  text-align: left;
+  font-weight: 700;
+}
+
+th,
+td {
+  padding: 15px 8px;
+  border: 1px solid var(--borda);
+  text-align: center;
+  white-space: nowrap;
+}
+
+thead th {
+  background: #fafaff;
+  color: var(--texto-suave);
+}
+
+/* Reserva mais espaço para os nomes dos hábitos. */
+th:first-child {
+  min-width: 155px;
+  padding-left: 16px;
+  text-align: left;
+}
+
+td {
+  color: var(--azul);
+  font-size: 17px;
+}
+
+.previa-rodape {
+  margin: 0;
+  padding: 18px 24px;
+  color: var(--texto-suave);
+  font-size: 12px;
+}
+
+.recursos {
+  padding-block: 48px 72px;
+}
+
+.recursos > h2,
+.duvidas > h2 {
+  margin: 0 0 32px;
+  font-size: 30px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+/* Distribui os três recursos lado a lado em telas maiores. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  padding: 28px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+}
+
+.numero {
+  color: var(--azul);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.card h3 {
+  margin: 14px 0 10px;
+  font-size: 19px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+/* Uma largura menor facilita a leitura das perguntas e respostas. */
+.duvidas {
+  max-width: 760px;
+  margin-inline: auto;
+  padding-block: 32px 80px;
+}
+
+details {
+  padding-block: 20px;
+  border-bottom: 1px solid var(--borda);
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+details p {
+  margin-bottom: 0;
+  color: var(--texto-suave);
+}
+
+.rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 28px;
+  border-top: 1px solid var(--borda);
+}
+
+.rodape .logo {
+  font-size: 22px;
+}
+
+.rodape p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
+/* Em telas menores, coloca a apresentação e os cards em uma coluna. */
+@media (max-width: 960px) {
+  .apresentacao {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    min-height: auto;
+    padding-block: 48px;
+  }
+
+  .conteudo {
+    max-width: 640px;
+  }
+
+  .previa {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ajusta o cabeçalho, os espaçamentos e o rodapé para celulares. */
+@media (max-width: 600px) {
+  .cabecalho {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding-block: 20px;
+  }
+
+  .cabecalho nav {
+    order: 3;
+    width: 100%;
+    gap: 24px;
+  }
+
+  .acesso {
+    margin-left: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  h1 {
+    letter-spacing: -1px;
+  }
+
+  .previa-cabecalho {
+    padding: 20px 16px 10px;
+  }
+
+  .aviso-previa {
+    padding-inline: 16px;
+  }
+
+  .rodape {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Respeita a preferência de quem desativa animações no dispositivo. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
