@@ -1,89 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <!-- Permite acentos e adapta a página à largura do dispositivo. -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>HabitFlow | Organize sua rotina</title>
-  <meta
-    name="description"
-    content="Organize seus hábitos, estabeleça metas e acompanhe seu progresso com o HabitFlow."
-  >
+
+  <meta name="description" content="Organize seus hábitos, estabeleça metas e acompanhe seu progresso com o HabitFlow.">
 
   <!-- Estilo exclusivo da página inicial. -->
+
   <link rel="stylesheet" href="../css/inicio.css">
+
 </head>
 
 <body>
+
   <!-- Apresenta a marca, a navegação e o acesso ao painel. -->
+
   <header class="cabecalho">
+
     <a class="logo" href="index.html" aria-label="HabitFlow — início">
+
       HabitFlow
+
     </a>
 
     <nav aria-label="Navegação principal">
+
       <!-- Os links com # levam às seções desta mesma página. -->
+
       <a href="#recursos">Recursos</a>
       <a href="#duvidas">Dúvidas</a>
+
     </nav>
 
     <a class="acesso" href="DashBoard.html">Abrir painel</a>
+
   </header>
 
   <main>
+
     <!-- Apresentação principal: texto à esquerda e demonstração à direita. -->
+
     <section class="apresentacao" aria-labelledby="titulo">
+
       <div class="conteudo">
+
         <p class="etiqueta">Um hábito de cada vez</p>
 
         <h1 id="titulo">
+
           Pare de adiar.<br>
           Comece a <span>evoluir.</span>
+
         </h1>
 
         <p class="descricao">
+
           Transforme pequenas ações em uma rotina melhor.
           Com o HabitFlow, você organiza seus hábitos, define metas
           e acompanha cada etapa do seu progresso.
+
         </p>
 
         <ul class="beneficios">
+
           <li>Planeje suas atividades diárias.</li>
           <li>Acompanhe seu progresso e suas metas.</li>
           <li>Construa uma rotina com mais constância.</li>
+
         </ul>
 
         <!-- Abre a página que cadastra e acompanha os hábitos. -->
+
         <a class="botao" href="DashBoard.html">Começar agora</a>
 
         <p class="observacao">
+
           Gratuito e sem cadastro. Seus dados ficam neste navegador.
+
         </p>
+
       </div>
 
       <!-- Exemplo visual: os registros abaixo não são dados do usuário. -->
+
       <div class="previa">
+
         <div class="previa-cabecalho">
+
           <div>
+
             <p class="etiqueta">Sua rotina em movimento</p>
             <h2>Pequenos passos, grandes mudanças.</h2>
+
           </div>
 
           <span class="selo">Prévia</span>
+
         </div>
 
         <p id="aviso-previa" class="aviso-previa">
+
           Exemplo ilustrativo de uma semana de hábitos.
+
         </p>
 
         <!-- Permite rolar a tabela horizontalmente em telas pequenas. -->
+
         <div class="tabela-container">
+
           <table aria-describedby="aviso-previa">
+
             <caption>Exemplo de acompanhamento semanal</caption>
 
             <thead>
+
               <tr>
+
                 <th scope="col">Hábito</th>
                 <th scope="col">Seg</th>
                 <th scope="col">Ter</th>
@@ -92,12 +131,17 @@
                 <th scope="col">Sex</th>
                 <th scope="col">Sáb</th>
                 <th scope="col">Dom</th>
+
               </tr>
+
             </thead>
 
             <!-- Os rótulos descrevem os símbolos para leitores de tela. -->
+
             <tbody>
+
               <tr>
+
                 <th scope="row">Estudar</th>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Concluído">✓</td>
@@ -106,9 +150,11 @@
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Não previsto">—</td>
                 <td aria-label="Não previsto">—</td>
+
               </tr>
 
               <tr>
+
                 <th scope="row">Beber água</th>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Concluído">✓</td>
@@ -117,9 +163,11 @@
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Pendente">—</td>
+
               </tr>
 
               <tr>
+
                 <th scope="row">Ler um livro</th>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Pendente">—</td>
@@ -128,9 +176,11 @@
                 <td aria-label="Pendente">—</td>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Pendente">—</td>
+
               </tr>
 
               <tr>
+
                 <th scope="row">Praticar exercícios</th>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Não previsto">—</td>
@@ -139,9 +189,11 @@
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Não previsto">—</td>
                 <td aria-label="Não previsto">—</td>
+
               </tr>
 
               <tr>
+
                 <th scope="row">Organizar o dia</th>
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Concluído">✓</td>
@@ -150,81 +202,134 @@
                 <td aria-label="Concluído">✓</td>
                 <td aria-label="Pendente">—</td>
                 <td aria-label="Pendente">—</td>
+
               </tr>
+
             </tbody>
+
           </table>
+
         </div>
 
         <p class="previa-rodape">
+
           Cada atividade concluída é mais um passo na sua evolução.
+
         </p>
+
       </div>
+
     </section>
 
     <!-- Resume as funcionalidades disponíveis no painel. -->
+
     <section id="recursos" class="recursos" aria-labelledby="titulo-recursos">
+
       <h2 id="titulo-recursos">Tudo para cuidar da sua rotina</h2>
 
       <div class="cards">
+
         <article class="card">
+
           <!-- A numeração é decorativa e fica oculta dos leitores de tela. -->
+
           <span class="numero" aria-hidden="true">01</span>
+
           <h3>Organize seus hábitos</h3>
+
           <p>
+
             Cadastre atividades e defina categorias, frequência
             e metas para cada hábito.
+
           </p>
+
         </article>
 
         <article class="card">
+
           <span class="numero" aria-hidden="true">02</span>
+
           <h3>Acompanhe seu progresso</h3>
+
           <p>
+
             Consulte os resultados do dia, da semana e do mês
             para entender sua evolução.
+
           </p>
+
         </article>
 
         <article class="card">
+
           <span class="numero" aria-hidden="true">03</span>
+
           <h3>Mantenha a constância</h3>
+
           <p>
+
             Registre suas conclusões e acompanhe a sequência
             de realizações de cada hábito.
+
           </p>
+
         </article>
+
       </div>
+
     </section>
 
     <!-- details e summary permitem abrir respostas sem JavaScript. -->
+
     <section id="duvidas" class="duvidas" aria-labelledby="titulo-duvidas">
+
       <h2 id="titulo-duvidas">Dúvidas frequentes</h2>
 
       <details>
+
         <summary>Preciso criar uma conta?</summary>
+
         <p>Não. Basta abrir o painel e começar a cadastrar seus hábitos.</p>
+
       </details>
 
       <details>
+
         <summary>Onde meus hábitos ficam salvos?</summary>
+
         <p>
+
           Os dados ficam no navegador utilizado. Limpar os dados do site
           pode apagar seus registros. Não há sincronização entre dispositivos.
+
         </p>
+
       </details>
 
       <details>
+
         <summary>Posso usar pelo celular?</summary>
+
         <p>
+
           Sim. A interface se adapta a celulares, tablets e computadores.
+
         </p>
+
       </details>
+
     </section>
+
   </main>
 
   <footer class="rodape">
+
     <a class="logo" href="index.html">HabitFlow</a>
     <p>Organize sua rotina, um hábito de cada vez.</p>
+
   </footer>
+
 </body>
+
 </html>
