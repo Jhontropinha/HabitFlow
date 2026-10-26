@@ -16,6 +16,7 @@
 
   <link rel="stylesheet" href="../css/inicio.css">
 
+  <script src="../js/inicio.js" defer></script>
 </head>
 
 <body>
@@ -39,7 +40,11 @@
 
     </nav>
 
-    <a class="acesso" href="DashBoard.html">Abrir painel</a>
+    <!-- Agrupa o acesso e o tema na posição indicada. -->
+    <div class="acoes-cabecalho">
+      <a class="acesso" href="dashboard.html">Abrir painel</a>
+      <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
+    </div>
 
   </header>
 
@@ -78,7 +83,7 @@
 
         <!-- Abre a página que cadastra e acompanha os hábitos. -->
 
-        <a class="botao" href="DashBoard.html">Começar agora</a>
+        <a class="botao" href="dashboard.html">Começar agora</a>
 
         <p class="observacao">
 

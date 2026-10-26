@@ -415,3 +415,39 @@ details p {
     scroll-behavior: auto;
   }
 }
+/* Mantém o botão de tema abaixo de Abrir painel, inclusive no celular. */
+.acoes-cabecalho {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.acoes-cabecalho .acesso { margin-left: 0; }
+#tema {
+  padding: 7px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--fundo-suave);
+  color: var(--texto);
+  font: inherit;
+  cursor: pointer;
+}
+#tema:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 4px;
+}
+/* A preferência é compartilhada com a dashboard. */
+body.escuro {
+  --azul: #a5b4ff;
+  --azul-escuro: #c0caff;
+  --texto: #eef0ff;
+  --texto-suave: #b8bfd8;
+  --borda: #39415e;
+  --fundo-suave: #242a43;
+  background: #191d30;
+  color-scheme: dark;
+}
+.escuro thead th { background: var(--fundo-suave); }
+.escuro .acesso:hover { background: #343d60; }
+.escuro .botao { color: #101322; }

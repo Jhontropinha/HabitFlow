@@ -1,89 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Dashboard | HabitFlow</title>
-
   <link rel="stylesheet" href="../css/dashboard.css">
-
   <script src="../js/script.js" defer></script>
-
 </head>
-
 <body>
+  <div class="painel">
+    <!-- Navegação e tema; os hábitos continuam usando o script atual. -->
+    <header class="cabecalho">
+      <a class="logo" href="index.html">HabitFlow</a>
+      <nav aria-label="Navegação principal">
+        <a href="#rotina">Hábitos</a>
+        <a href="#progresso">Estatísticas</a>
+        <a href="index.html">Início</a>
+      </nav>
+      <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
+    </header>
+    <main>
+      <!-- Os cartões são preenchidos com os registros reais do navegador. -->
+    <section id="rotina" aria-labelledby="titulo-rotina">
 
-  <header>
-
-    <div>
-
-      <h1>HabitFlow</h1>
-      <p>Seu painel de hábitos e rotina.</p>
-      <a href="index.html">Página inicial</a>
-
-    </div>
-
-    <button id="tema" type="button" aria-pressed="false">
-
-      Modo escuro
-
-    </button>
-
-  </header>
-
-  <main>
-
-    <p id="mensagem" role="status" aria-live="polite"></p>
-
-    <section aria-labelledby="titulo-progresso">
-
-      <h2 id="titulo-progresso">Meu progresso</h2>
-      <p>Acompanhe suas atividades e mantenha a constância.</p>
-
-      <div class="progresso">
-
-        <div>
-
-          <label for="barra-dia">Dia selecionado</label>
-          <progress id="barra-dia" value="0" max="100"></progress>
-          <p id="texto-dia">0 de 0 concluídos (0%)</p>
-
-        </div>
-
-        <div>
-
-          <label for="barra-semana">Semana atual até hoje</label>
-          <progress id="barra-semana" value="0" max="100"></progress>
-          <p id="texto-semana">0 de 0 concluídos (0%)</p>
-
-        </div>
-
-        <div>
-
-          <label for="barra-mes">Mês atual até hoje</label>
-          <progress id="barra-mes" value="0" max="100"></progress>
-          <p id="texto-mes">0 de 0 concluídos (0%)</p>
-
-        </div>
-
+      <div class="titulo-pagina">
+        <div><p class="etiqueta">Um hábito de cada vez</p>
+        <h1 id="titulo-rotina">Meus hábitos</h1>
+        <p class="descricao">Organize seu dia e acompanhe suas conquistas.</p></div>
+        <a class="botao" href="#cadastro">+ Novo hábito</a>
       </div>
-
-    </section>
-
-    <section aria-labelledby="titulo-rotina">
-
-      <h2 id="titulo-rotina">Minha rotina e histórico</h2>
-
-      <p>
-
-        Escolha uma data para consultar seus hábitos e registrar
-        as atividades concluídas.
-
-      </p>
-
       <div class="colunas">
 
         <div>
@@ -109,17 +54,18 @@
 
       </div>
 
-      <ul id="lista"></ul>
+      <ul id="lista" class="lista-habitos"></ul>
 
-      <p id="lista-vazia">
+      <p id="lista-vazia" class="estado-vazio">
 
         Você ainda não tem hábitos cadastrados.
 
       </p>
 
     </section>
-
-    <section aria-labelledby="titulo-formulario">
+      <p id="mensagem" role="status" aria-live="polite"></p>
+      <!-- Mantém cadastro e edição disponíveis, sem alterar os dados salvos. -->
+    <section id="cadastro" class="bloco" aria-labelledby="titulo-formulario">
 
       <h2 id="titulo-formulario">Novo hábito</h2>
 
@@ -184,25 +130,43 @@
       </form>
 
     </section>
+    <section id="progresso" class="bloco" aria-labelledby="titulo-progresso">
 
-  </main>
+      <h2 id="titulo-progresso">Meu progresso</h2>
+      <p>Acompanhe suas atividades e mantenha a constância.</p>
 
-  <footer>
+      <div class="progresso">
 
-    <p>
+        <div>
 
-      Seus hábitos ficam salvos neste navegador, sem precisar de conta.
+          <label for="barra-dia">Dia selecionado</label>
+          <progress id="barra-dia" value="0" max="100"></progress>
+          <p id="texto-dia">0 de 0 concluídos (0%)</p>
 
-    </p>
+        </div>
 
-  </footer>
+        <div>
 
-  <noscript>
+          <label for="barra-semana">Semana atual até hoje</label>
+          <progress id="barra-semana" value="0" max="100"></progress>
+          <p id="texto-semana">0 de 0 concluídos (0%)</p>
 
-    Ative o JavaScript para cadastrar hábitos e acompanhar seu progresso.
+        </div>
 
-  </noscript>
+        <div>
 
+          <label for="barra-mes">Mês atual até hoje</label>
+          <progress id="barra-mes" value="0" max="100"></progress>
+          <p id="texto-mes">0 de 0 concluídos (0%)</p>
+
+        </div>
+
+      </div>
+
+    </section>
+    </main>
+    <footer>Seus hábitos ficam salvos neste navegador.</footer>
+  </div>
+  <noscript>Ative o JavaScript para usar o HabitFlow.</noscript>
 </body>
-
 </html>

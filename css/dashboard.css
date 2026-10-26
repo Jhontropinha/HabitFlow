@@ -495,3 +495,10 @@ body.escuro {
     scroll-behavior: auto;
   }
 }
+/* Conclusão no canto do cartão, como na referência aprovada. */
+.nome-habito input { position: absolute; top: 24px; right: 24px; }
+.bloco > h2 { margin-bottom: 24px; }
+.lista-habitos > li:nth-child(4n + 2) { --cartao-inicio: #dbeaff; --cartao-fim: #b9dcff; }
+.lista-habitos > li:nth-child(4n + 3) { --cartao-inicio: #e7e4ff; --cartao-fim: #cfc8ff; }
+.lista-habitos > li:nth-child(4n + 4) { --cartao-inicio: #dcefff; --cartao-fim: #b8d4f5; }
+.escuro .lista-habitos > li:nth-child(n) { --cartao-inicio: #293353; --cartao-fim: #343f68; }
