@@ -1,0 +1,141 @@
+/* As cores e o modo escuro vêm das variáveis de dashboard.css. */
+.cabecalho nav [aria-current="page"] {
+  color: var(--azul);
+  font-weight: 700;
+}
+
+.controle-mes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.controle-mes h2 {
+  text-transform: capitalize;
+}
+
+.semana,
+.grade-dias {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.semana {
+  margin-bottom: 10px;
+  color: var(--texto-suave);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Cada data é um botão nativo: funciona com mouse, toque e teclado. */
+.dia {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 78px;
+  padding: 8px 2px;
+  border: 1px solid var(--borda);
+  font-size: 18px;
+}
+
+.dia small {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.sem-habitos,
+.dia.futuro {
+  background: var(--superficie);
+  color: var(--texto-suave);
+}
+
+.pendente {
+  background: var(--superficie-suave);
+  color: var(--texto);
+}
+
+.parcial {
+  background: var(--cartao-fim);
+  color: var(--texto-cartao);
+}
+
+.completo {
+  background: var(--azul);
+  color: var(--texto-botao);
+}
+
+/* O contorno destaca a seleção; o sublinhado identifica o dia atual. */
+.dia[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px var(--superficie), 0 0 0 4px var(--azul);
+}
+
+.dia[aria-current="date"] > span {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.controle-mes button:disabled,
+.dia:disabled {
+  opacity: 0.55;
+  cursor: default;
+  filter: none;
+}
+
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  padding: 0;
+  margin: 24px 0 12px;
+  list-style: none;
+  font-size: 13px;
+}
+
+.legenda li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amostra {
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+}
+
+.historico {
+  padding: 0;
+  list-style: none;
+}
+
+.historico li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--borda);
+  overflow-wrap: anywhere;
+}
+
+.historico p,
+.nota {
+  margin: 8px 0 0;
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
+.nota a {
+  color: var(--azul);
+  text-decoration: underline;
+}
+
+/* Reduz o espaço sem perder as sete colunas no celular. */
+@media (max-width: 600px) {
+  .grade-dias,
+  .semana { gap: 5px; }
+  .dia { min-height: 60px; font-size: 16px; }
+  .dia small { font-size: 10px; }
+  .bloco { padding: 14px; }
+}
