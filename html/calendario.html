@@ -1,78 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Calendário | HabitFlow</title>
 
   <!-- Reaproveita a identidade da dashboard; o segundo CSS cuida do calendário. -->
+
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/calendario.css">
 
   <!-- inicio.js controla somente o tema e já existe no projeto. -->
+
   <script src="../js/inicio.js" defer></script>
   <script src="../js/calendario.js" defer></script>
+
 </head>
+
 <body>
+
   <div class="painel">
+
     <header class="cabecalho">
+
       <a class="logo" href="index.html">HabitFlow</a>
+
       <nav aria-label="Navegação principal">
+
         <a href="dashboard.html">DashBoard</a>
         <a href="calendario.html">Calendário</a>
         <a href="index.html">Início</a>
+
       </nav>
+
       <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
+
     </header>
 
     <main>
+
       <div class="titulo-pagina">
+
         <div>
+
           <p class="etiqueta">Sua constância ao longo do tempo</p>
           <h1>Calendário</h1>
           <p class="descricao">Escolha um dia e consulte seu histórico de hábitos.</p>
+
         </div>
+
         <a class="botao" href="dashboard.html#cadastro">+ Novo hábito</a>
+
       </div>
 
       <p id="mensagem" role="status" aria-live="polite"></p>
 
       <section class="bloco" aria-labelledby="mes-atual">
+
         <div class="controle-mes">
+
           <h2 id="mes-atual" aria-live="polite"></h2>
+
           <div class="acoes">
+
             <button id="mes-anterior" class="secundario" type="button" aria-label="Mês anterior">←</button>
             <button id="ir-hoje" class="secundario" type="button">Hoje</button>
             <button id="mes-proximo" class="secundario" type="button" aria-label="Próximo mês">→</button>
+
           </div>
+
         </div>
 
         <!-- A semana começa no domingo, como no calendário brasileiro. -->
+
         <div class="semana" aria-hidden="true">
+
           <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span>
           <span>Qui</span><span>Sex</span><span>Sáb</span>
+
         </div>
+
         <div id="calendario" class="grade-dias" role="group" aria-label="Dias do mês"></div>
 
         <!-- Os números nos dias também indicam o progresso, além das cores. -->
+
         <ul class="legenda" aria-label="Legenda do calendário">
+
           <li><span class="amostra sem-habitos"></span>Sem hábitos</li>
           <li><span class="amostra pendente"></span>Nenhum concluído</li>
           <li><span class="amostra parcial"></span>Parte concluída</li>
           <li><span class="amostra completo"></span>Todos concluídos</li>
+
         </ul>
+
         <p class="nota">Em cada dia: hábitos concluídos / hábitos previstos ou registrados.</p>
+
       </section>
 
       <section class="bloco" aria-labelledby="titulo-dia">
+
         <h2 id="titulo-dia"></h2>
         <p id="resumo-dia" role="status" aria-live="polite"></p>
         <ul id="historico" class="historico"></ul>
-        <p class="nota">Para marcar ou corrigir uma conclusão, selecione a data na <a href="dashboard.html">dashboard</a>.</p>
+        <p class="nota">Para marcar ou corrigir uma conclusão, selecione a data na <a
+            href="dashboard.html">dashboard</a>.</p>
+
       </section>
+
     </main>
-    <footer>Histórico dos hábitos ainda cadastrados, considerando a frequência atual. Dados salvos neste navegador.</footer>
+
+    <footer>Histórico dos hábitos ainda cadastrados, considerando a frequência atual. Dados salvos neste navegador.
+
+    </footer>
+
   </div>
+
   <noscript>Ative o JavaScript para consultar seu calendário.</noscript>
+
 </body>
+
 </html>

@@ -1,106 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Dashboard | HabitFlow</title>
+
   <link rel="stylesheet" href="../css/dashboard.css">
+
   <script src="../js/script.js" defer></script>
+
 </head>
+
 <body>
+
   <div class="painel">
+
     <!-- Navegação e tema; os hábitos continuam usando o script atual. -->
+
     <header class="cabecalho">
+
       <a class="logo" href="index.html">HabitFlow</a>
+
       <nav aria-label="Navegação principal">
+
         <a href="#rotina">Hábitos</a>
         <a href="#progresso">Estatísticas</a>
         <a href="index.html">Início</a>
         <a href="calendario.html">Calendário</a>
+
       </nav>
+
       <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
+
     </header>
+
     <main>
+
       <!-- Os cartões são preenchidos com os registros reais do navegador. -->
-    <section id="rotina" aria-labelledby="titulo-rotina">
 
-      <div class="titulo-pagina">
-        <div><p class="etiqueta">Um hábito de cada vez</p>
-        <h1 id="titulo-rotina">Meus hábitos</h1>
-        <p class="descricao">Organize seu dia e acompanhe suas conquistas.</p></div>
-        <a class="botao" href="#cadastro">+ Novo hábito</a>
-      </div>
-      <div class="colunas">
+      <section id="rotina" aria-labelledby="titulo-rotina">
 
-        <div>
+        <div class="titulo-pagina">
 
-          <label for="data">Data</label>
-          <input id="data" type="date" required>
+          <div>
 
-        </div>
+            <p class="etiqueta">Um hábito de cada vez</p>
+            <h1 id="titulo-rotina">Meus hábitos</h1>
+            <p class="descricao">Organize seu dia e acompanhe suas conquistas.</p>
 
-        <div>
+          </div>
 
-          <label for="filtro">Mostrar</label>
-
-          <select id="filtro">
-
-            <option value="todos">Todos os hábitos</option>
-            <option value="pendentes">Pendentes</option>
-            <option value="concluidos">Concluídos</option>
-
-          </select>
+          <a class="botao" href="#cadastro">+ Novo hábito</a>
 
         </div>
-
-      </div>
-
-      <ul id="lista" class="lista-habitos"></ul>
-
-      <p id="lista-vazia" class="estado-vazio">
-
-        Você ainda não tem hábitos cadastrados.
-
-      </p>
-
-    </section>
-      <p id="mensagem" role="status" aria-live="polite"></p>
-      <!-- Mantém cadastro e edição disponíveis, sem alterar os dados salvos. -->
-    <section id="cadastro" class="bloco" aria-labelledby="titulo-formulario">
-
-      <h2 id="titulo-formulario">Novo hábito</h2>
-
-      <form id="formulario">
-
-        <label for="nome">Nome do hábito</label>
-
-        <input id="nome" type="text" placeholder="Ex.: Estudar programação" maxlength="60" required>
 
         <div class="colunas">
 
           <div>
 
-            <label for="categoria">Categoria</label>
-            <select id="categoria">
-
-              <option>Saúde</option>
-              <option>Estudos</option>
-              <option>Pessoal</option>
-              <option>Bem-estar</option>
-
-            </select>
+            <label for="data">Data</label>
+            <input id="data" type="date" required>
 
           </div>
 
           <div>
 
-            <label for="frequencia">Frequência</label>
+            <label for="filtro">Mostrar</label>
 
-            <select id="frequencia">
+            <select id="filtro">
 
-              <option value="diario">Todos os dias</option>
-              <option value="semana">Segunda a sexta</option>
-              <option value="fim-semana">Sábado e domingo</option>
+              <option value="todos">Todos os hábitos</option>
+              <option value="pendentes">Pendentes</option>
+              <option value="concluidos">Concluídos</option>
 
             </select>
 
@@ -108,66 +82,129 @@
 
         </div>
 
-        <label for="meta">Meta</label>
+        <ul id="lista" class="lista-habitos"></ul>
 
-        <input id="meta" type="text" placeholder="Ex.: Estudar por 30 minutos" maxlength="80" required>
+        <p id="lista-vazia" class="estado-vazio">
 
-        <div class="acoes">
+          Você ainda não tem hábitos cadastrados.
 
-          <button id="salvar" type="submit">
+        </p>
 
-            Adicionar hábito
+      </section>
 
-          </button>
+      <p id="mensagem" role="status" aria-live="polite"></p>
 
-          <button id="cancelar" class="secundario" type="button" hidden>
+      <!-- Mantém cadastro e edição disponíveis, sem alterar os dados salvos. -->
 
-            Cancelar edição
+      <section id="cadastro" class="bloco" aria-labelledby="titulo-formulario">
 
-          </button>
+        <h2 id="titulo-formulario">Novo hábito</h2>
+
+        <form id="formulario">
+
+          <label for="nome">Nome do hábito</label>
+
+          <input id="nome" type="text" placeholder="Ex.: Estudar programação" maxlength="60" required>
+
+          <div class="colunas">
+
+            <div>
+
+              <label for="categoria">Categoria</label>
+              <select id="categoria">
+
+                <option>Saúde</option>
+                <option>Estudos</option>
+                <option>Pessoal</option>
+                <option>Bem-estar</option>
+
+              </select>
+
+            </div>
+
+            <div>
+
+              <label for="frequencia">Frequência</label>
+
+              <select id="frequencia">
+
+                <option value="diario">Todos os dias</option>
+                <option value="semana">Segunda a sexta</option>
+                <option value="fim-semana">Sábado e domingo</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <label for="meta">Meta</label>
+
+          <input id="meta" type="text" placeholder="Ex.: Estudar por 30 minutos" maxlength="80" required>
+
+          <div class="acoes">
+
+            <button id="salvar" type="submit">
+
+              Adicionar hábito
+
+            </button>
+
+            <button id="cancelar" class="secundario" type="button" hidden>
+
+              Cancelar edição
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+      <section id="progresso" class="bloco" aria-labelledby="titulo-progresso">
+
+        <h2 id="titulo-progresso">Meu progresso</h2>
+        <p>Acompanhe suas atividades e mantenha a constância.</p>
+
+        <div class="progresso">
+
+          <div>
+
+            <label for="barra-dia">Dia selecionado</label>
+            <progress id="barra-dia" value="0" max="100"></progress>
+            <p id="texto-dia">0 de 0 concluídos (0%)</p>
+
+          </div>
+
+          <div>
+
+            <label for="barra-semana">Semana atual até hoje</label>
+            <progress id="barra-semana" value="0" max="100"></progress>
+            <p id="texto-semana">0 de 0 concluídos (0%)</p>
+
+          </div>
+
+          <div>
+
+            <label for="barra-mes">Mês atual até hoje</label>
+            <progress id="barra-mes" value="0" max="100"></progress>
+            <p id="texto-mes">0 de 0 concluídos (0%)</p>
+
+          </div>
 
         </div>
 
-      </form>
+      </section>
 
-    </section>
-    <section id="progresso" class="bloco" aria-labelledby="titulo-progresso">
-
-      <h2 id="titulo-progresso">Meu progresso</h2>
-      <p>Acompanhe suas atividades e mantenha a constância.</p>
-
-      <div class="progresso">
-
-        <div>
-
-          <label for="barra-dia">Dia selecionado</label>
-          <progress id="barra-dia" value="0" max="100"></progress>
-          <p id="texto-dia">0 de 0 concluídos (0%)</p>
-
-        </div>
-
-        <div>
-
-          <label for="barra-semana">Semana atual até hoje</label>
-          <progress id="barra-semana" value="0" max="100"></progress>
-          <p id="texto-semana">0 de 0 concluídos (0%)</p>
-
-        </div>
-
-        <div>
-
-          <label for="barra-mes">Mês atual até hoje</label>
-          <progress id="barra-mes" value="0" max="100"></progress>
-          <p id="texto-mes">0 de 0 concluídos (0%)</p>
-
-        </div>
-
-      </div>
-
-    </section>
     </main>
+
     <footer>Seus hábitos ficam salvos neste navegador.</footer>
+
   </div>
+
   <noscript>Ative o JavaScript para usar o HabitFlow.</noscript>
+
 </body>
+
 </html>
