@@ -295,3 +295,42 @@ botaoTema.addEventListener("click", function () {
 });
 
 atualizarPagina();
+
+document.getElementById("exportar").addEventListener("click", function () {
+  let url;
+
+  try {
+    const backup = {
+
+      versao: 1,
+      exportadoEm: new Date().toISOString(),
+      habitos: habitos
+
+    };
+
+    const arquivo = new Blob(
+
+      [JSON.stringify(backup, null, 2)],
+      { type: "application/json" }
+
+    )
+
+    url = URL.createObjectURL(arquivo);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `habitflow-backup-${formatarData(new Date())}.json`;
+
+    document.body.append(link);
+    link.click();
+    link.remove();
+
+    mensagem.textContent = "Download solicitado. Confira o arquivo na pasta de downloads.";
+  } catch (erro) {
+    mensagem.textContent = "Não foi possível gerar o backup.";
+  } finally {
+    if (url) {
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+  }
+});
