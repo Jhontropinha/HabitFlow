@@ -334,3 +334,52 @@ document.getElementById("exportar").addEventListener("click", function () {
     }
   }
 });
+
+const botaoImportar = document.getElementById("importar");
+const inputArquivo = document.getElementById("arquivo-backup");
+
+botaoImportar.addEventListener("click", function () {
+  inputArquivo.click();
+});
+
+inputArquivo.addEventListener("change", function () {
+  const arquivo = inputArquivo.files[0];
+  if (!arquivo) return;
+
+  const leitor = new FileReader();
+
+  leitor.onload = function (e) {
+    try {
+      const backup = JSON.parse(e.target.result);
+
+      if (!backup || backup.versao !== 1 || !Array.isArray(backup.habitos)) {
+        mensagem.textContent = "O arquivo selecionado não é um backup válido.";
+        inputArquivo.value = "";
+        return;
+      }
+
+      const confirmar = window.confirm(
+        `Restaurar ${backup.habitos.length} hábitos do backup? Isso substituirá os hábitos atuais.`
+      );
+
+      if (!confirmar) {
+        mensagem.textContent = "Importação cancelada.";
+        inputArquivo.value = "";
+        return;
+      }
+
+      habitos.length = 0;
+      backup.habitos.forEach((item) => habitos.push(item));
+      localStorage.setItem("habitflow-basico", JSON.stringify(habitos));
+
+      mensagem.textContent = "Backup restaurado com sucesso!";
+      setTimeout(() => window.location.reload(), 800);
+    } catch (erro) {
+      mensagem.textContent = "Não foi possível ler o arquivo de backup.";
+    } finally {
+      inputArquivo.value = "";
+    }
+  };
+
+  leitor.readAsText(arquivo);
+});
