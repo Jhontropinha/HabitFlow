@@ -1,3 +1,5 @@
+import { lerMetas, resumoMeta } from "./metas-dados.js";
+
 // Lê os registros da dashboard; esta página não altera os hábitos salvos.
 const grade = document.getElementById("calendario");
 const tituloMes = document.getElementById("mes-atual");
@@ -9,6 +11,7 @@ const anterior = document.getElementById("mes-anterior");
 const proximo = document.getElementById("mes-proximo");
 
 let habitosCalendario = [];
+let metasCalendario = [];
 let selecionada = formatarData(new Date());
 let mesVisivel = converterData(selecionada.slice(0, 8) + "01");
 
@@ -53,6 +56,12 @@ function carregarHabitos() {
     habitosCalendario = [];
     aviso.textContent = "Não foi possível ler os hábitos deste navegador. Nenhum registro foi alterado.";
   }
+  try {
+    metasCalendario = lerMetas().metas;
+  } catch {
+    metasCalendario = [];
+    aviso.textContent += " Não foi possível carregar as metas. Os registros foram preservados.";
+  }
   mostrarCalendario();
 }
 
@@ -67,6 +76,31 @@ function habitosDoDia(data) {
     if (habito.frequencia === "fim-semana") return diaSemana === 0 || diaSemana === 6;
     return true;
   });
+}
+
+// Hábitos e metas compartilham a contagem e as cores do calendário.
+function atividadesDoDia(data) {
+  const atividades = habitosDoDia(data).map(function (habito) {
+    const concluida = habito.concluidos.includes(data);
+    return {
+      nome: habito.nome,
+      concluida,
+      andamento: concluida,
+      detalhes: `${concluida ? "Concluído" : "Pendente"} • ${habito.categoria} • Meta: ${habito.meta}`
+    };
+  });
+
+  metasCalendario.forEach(function (meta) {
+    const resumo = resumoMeta(meta, data);
+    if (!resumo) return;
+    atividades.push({
+      nome: "Meta: " + meta.nome,
+      concluida: resumo.concluida,
+      andamento: resumo.andamento,
+      detalhes: `${resumo.concluida ? "Cumprida" : resumo.andamento ? "Em andamento" : "Pendente"} • ${resumo.total} de ${meta.alvo} ${resumo.unidade}`
+    });
+  });
+  return atividades;
 }
 
 function mostrarCalendario() {
@@ -84,11 +118,12 @@ function mostrarCalendario() {
   const data = new Date(mesVisivel);
   while (data.getMonth() === mesVisivel.getMonth()) {
     const chave = formatarData(data);
-    const previstos = habitosDoDia(chave);
-    const feitos = previstos.filter(habito => habito.concluidos.includes(chave)).length;
+    const previstos = atividadesDoDia(chave);
+    const feitos = previstos.filter(item => item.concluida).length;
+    const temProgresso = previstos.some(item => item.andamento);
     const futuro = chave > hoje;
     let estado = "sem-habitos";
-    if (previstos.length > 0) estado = feitos === 0 ? "pendente" : feitos === previstos.length ? "completo" : "parcial";
+    if (previstos.length > 0) estado = feitos === previstos.length ? "completo" : temProgresso ? "parcial" : "pendente";
 
     const botao = document.createElement("button");
     botao.type = "button";
@@ -99,7 +134,7 @@ function mostrarCalendario() {
     if (chave === hoje) botao.setAttribute("aria-current", "date");
 
     const descricao = futuro ? "Data futura" : previstos.length === 0
-      ? "Sem hábitos previstos ou registrados" : `${feitos} de ${previstos.length} concluídos`;
+      ? "Sem hábitos ou metas previstos ou registrados" : `${feitos} de ${previstos.length} concluídos`;
     botao.setAttribute("aria-label", data.toLocaleDateString("pt-BR", { dateStyle: "full" }) + ": " + descricao);
 
     const numero = document.createElement("span");
@@ -112,7 +147,12 @@ function mostrarCalendario() {
   }
 
   // A navegação fica entre o primeiro mês cadastrado e o mês atual.
-  const primeiraData = habitosCalendario.reduce((menor, habito) => habito.criacao < menor ? habito.criacao : menor, hoje);
+  const inicios = [
+    hoje,
+    ...habitosCalendario.map(habito => habito.criacao),
+    ...metasCalendario.map(meta => meta.inicio)
+  ];
+  const primeiraData = inicios.reduce((menor, data) => data < menor ? data : menor, hoje);
   anterior.disabled = formatarData(mesVisivel).slice(0, 7) <= primeiraData.slice(0, 7);
   proximo.disabled = formatarData(mesVisivel).slice(0, 7) >= hoje.slice(0, 7);
   mostrarHistorico();
@@ -121,19 +161,18 @@ function mostrarCalendario() {
 function mostrarHistorico() {
   tituloDia.textContent = converterData(selecionada).toLocaleDateString("pt-BR", { dateStyle: "long" });
   historico.replaceChildren();
-  const previstos = habitosDoDia(selecionada);
-  const feitos = previstos.filter(habito => habito.concluidos.includes(selecionada)).length;
+  const previstos = atividadesDoDia(selecionada);
+  const feitos = previstos.filter(item => item.concluida).length;
   resumoDia.textContent = previstos.length === 0 ? "Sem hábitos previstos ou registrados nesta data."
     : `${feitos} de ${previstos.length} concluídos (${Math.round(feitos / previstos.length * 100)}%).`;
 
-  previstos.forEach(function (habito) {
+  previstos.forEach(function (atividade) {
     const item = document.createElement("li");
     const nome = document.createElement("strong");
     const detalhes = document.createElement("p");
     // textContent impede que um nome digitado seja interpretado como HTML.
-    nome.textContent = habito.nome;
-    const estado = habito.concluidos.includes(selecionada) ? "Concluído" : "Pendente";
-    detalhes.textContent = `${estado} • ${habito.categoria} • Meta: ${habito.meta}`;
+    nome.textContent = atividade.nome;
+    detalhes.textContent = atividade.detalhes;
     item.append(nome, detalhes);
     historico.append(item);
   });
@@ -164,9 +203,9 @@ document.getElementById("ir-hoje").addEventListener("click", function () {
   carregarHabitos();
 });
 
-// Recarrega o histórico se outra aba modificar os hábitos ou apagar os dados.
+// Recarrega o histórico quando outra aba altera hábitos ou metas.
 window.addEventListener("storage", function (evento) {
-  if (evento.key === "habitflow-basico" || evento.key === null) carregarHabitos();
+  if (evento.key === "habitflow-basico" || evento.key === "habitflow-metas" || evento.key === null) carregarHabitos();
 });
 
 carregarHabitos();
