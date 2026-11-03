@@ -335,6 +335,43 @@ document.getElementById("exportar").addEventListener("click", function () {
   }
 });
 
+// 8. Restaurar backups sem alterar os dados atuais em caso de erro.
+function dataValidaBackup(texto) {
+  if (typeof texto !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(texto)) return false;
+  const data = new Date(texto + "T12:00:00");
+  return !Number.isNaN(data.getTime()) && formatarData(data) === texto;
+}
+
+function habitoValidoBackup(item) {
+  return item && typeof item === "object" && !Array.isArray(item)
+    && Number.isSafeInteger(item.id) && item.id > 0
+    && typeof item.nome === "string"
+    && item.nome.trim().length > 0 && item.nome.length <= 60
+    && typeof item.categoria === "string"
+    && item.categoria.trim().length > 0 && item.categoria.length <= 80
+    && typeof item.meta === "string"
+    && item.meta.trim().length > 0 && item.meta.length <= 80
+    && ["diario", "semana", "fim-semana"].includes(item.frequencia)
+    && dataValidaBackup(item.criacao)
+    && Array.isArray(item.concluidos)
+    && item.concluidos.every(function (data) {
+      return dataValidaBackup(data) && data >= item.criacao;
+    });
+}
+
+function backupValido(conteudo) {
+  if (!conteudo || typeof conteudo !== "object"
+    || Array.isArray(conteudo) || conteudo.versao !== 1
+    || !Array.isArray(conteudo.habitos)) return false;
+
+  const ids = new Set();
+  return conteudo.habitos.every(function (item) {
+    if (!habitoValidoBackup(item) || ids.has(item.id)) return false;
+    ids.add(item.id);
+    return true;
+  });
+}
+
 const botaoImportar = document.getElementById("importar");
 const inputArquivo = document.getElementById("arquivo-backup");
 
@@ -346,40 +383,60 @@ inputArquivo.addEventListener("change", function () {
   const arquivo = inputArquivo.files[0];
   if (!arquivo) return;
 
+  // Evita tentar carregar arquivos muito grandes na memória do navegador.
+  if (arquivo.size > 5 * 1024 * 1024) {
+    mensagem.textContent = "O arquivo é muito grande. Selecione um backup JSON de até 5 MB.";
+    inputArquivo.value = "";
+    return;
+  }
+
   const leitor = new FileReader();
 
-  leitor.onload = function (e) {
-    try {
-      const backup = JSON.parse(e.target.result);
+  leitor.onerror = function () {
+    mensagem.textContent = "Não foi possível ler o arquivo selecionado.";
+    inputArquivo.value = "";
+  };
 
-      if (!backup || backup.versao !== 1 || !Array.isArray(backup.habitos)) {
-        mensagem.textContent = "O arquivo selecionado não é um backup válido.";
-        inputArquivo.value = "";
+  leitor.onload = function (evento) {
+    try {
+      const conteudo = JSON.parse(evento.target.result);
+
+      if (!backupValido(conteudo)) {
+        mensagem.textContent = "Arquivo de backup inválido ou incompatível. Nenhum hábito foi alterado.";
         return;
       }
 
       const confirmar = window.confirm(
-        `Restaurar ${backup.habitos.length} hábitos do backup? Isso substituirá os hábitos atuais.`
+        "Restaurar " + conteudo.habitos.length + " hábito(s) do backup? Isso substituirá os hábitos atuais."
       );
 
       if (!confirmar) {
-        mensagem.textContent = "Importação cancelada.";
-        inputArquivo.value = "";
+        mensagem.textContent = "Importação cancelada. Seus hábitos foram mantidos.";
         return;
       }
 
-      habitos.length = 0;
-      backup.habitos.forEach((item) => habitos.push(item));
-      localStorage.setItem("habitflow-basico", JSON.stringify(habitos));
+      // Grava primeiro no armazenamento; só recarrega após a gravação funcionar.
+      // Assim, um erro de quota ou permissão não apaga os hábitos atuais.
+      try {
+        localStorage.setItem("habitflow-basico", JSON.stringify(conteudo.habitos));
+      } catch (erro) {
+        mensagem.textContent = "Não foi possível salvar o backup. Os dados atuais foram preservados.";
+        return;
+      }
 
-      mensagem.textContent = "Backup restaurado com sucesso!";
+      mensagem.textContent = "Backup restaurado com sucesso! Atualizando a tela...";
       setTimeout(() => window.location.reload(), 800);
     } catch (erro) {
-      mensagem.textContent = "Não foi possível ler o arquivo de backup.";
+      mensagem.textContent = "O arquivo não contém um JSON válido.";
     } finally {
       inputArquivo.value = "";
     }
   };
 
-  leitor.readAsText(arquivo);
+  try {
+    leitor.readAsText(arquivo);
+  } catch (erro) {
+    mensagem.textContent = "Não foi possível abrir o arquivo selecionado.";
+    inputArquivo.value = "";
+  }
 });
