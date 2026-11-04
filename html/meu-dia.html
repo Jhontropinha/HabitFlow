@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Meu Dia | HabitFlow</title>
+
+  <!-- Reutiliza o visual do dashboard e adiciona estilos desta página. -->
+
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/meu-dia.css">
+
+  <script src="../js/meu-dia.js" defer></script>
+
+</head>
+
+<body>
+
+  <div class="painel">
+
+    <header class="cabecalho">
+
+      <a class="logo" href="index.html">HabitFlow</a>
+
+      <nav aria-label="Navegação principal">
+
+        <a href="dashboard.html">Hábitos</a>
+        <a href="meu-dia.html" aria-current="page">Meu Dia</a>
+        <a href="calendario.html">Calendário</a>
+        <a href="metas.html">Metas</a>
+        <a href="index.html">Início</a>
+
+      </nav>
+
+      <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
+
+    </header>
+
+    <main>
+
+      <section class="boas-vindas" aria-labelledby="titulo-dia">
+
+        <p class="etiqueta">Sua rotina, no seu ritmo</p>
+
+        <h1 id="titulo-dia">Meu Dia</h1>
+
+        <p id="data-atual" class="descricao"></p>
+        <p class="descricao">Veja o que está planejado para hoje e acompanhe seu progresso.</p>
+
+      </section>
+
+      <section class="bloco" aria-labelledby="titulo-modos">
+
+        <h2 id="titulo-modos">Como está seu ritmo hoje?</h2>
+
+        <p class="descricao">Escolha um modo para visualizar a proposta da rotina adaptativa.</p>
+
+        <div class="opcoes-modo" role="group" aria-label="Intensidade do dia">
+
+          <button class="modo" type="button" data-modo="leve" aria-pressed="false">
+
+            <span class="modo-icone" aria-hidden="true">🌿</span>
+
+            <strong>Leve</strong>
+
+            <span>Um dia com menos atividades</span>
+
+          </button>
+
+          <button class="modo" type="button" data-modo="normal" aria-pressed="true">
+
+            <span class="modo-icone" aria-hidden="true">☀️</span>
+
+            <strong>Normal</strong>
+
+            <span>Seu ritmo habitual</span>
+
+          </button>
+
+          <button class="modo" type="button" data-modo="intenso" aria-pressed="false">
+
+            <span class="modo-icone" aria-hidden="true">⚡</span>
+
+            <strong>Intenso</strong>
+
+            <span>Um dia com mais atividades</span>
+
+          </button>
+
+        </div>
+
+        <p id="aviso-modo" class="aviso-modo" role="status" aria-live="polite">
+          Modo Normal selecionado. Esta é uma prévia: o modo ainda não altera seus hábitos.
+        </p>
+
+      </section>
+
+      <section class="bloco" aria-labelledby="titulo-habitos">
+
+        <div class="cabecalho-lista">
+
+          <div>
+
+            <h2 id="titulo-habitos">Hábitos de hoje</h2>
+
+            <p class="descricao">Dados carregados do seu dashboard.</p>
+
+          </div>
+
+          <a class="botao" href="dashboard.html#cadastro">+ Novo hábito</a>
+
+        </div>
+
+        <ul id="lista-dia" class="lista-dia" aria-label="Hábitos programados para hoje"></ul>
+
+        <p id="lista-vazia" class="estado-vazio" hidden></p>
+        <p id="mensagem" role="alert" hidden></p>
+
+      </section>
+
+      <section class="bloco" aria-labelledby="titulo-progresso">
+
+        <h2 id="titulo-progresso">Meu progresso de hoje</h2>
+
+        <progress id="barra-dia" value="0" max="100" aria-label="Progresso dos hábitos de hoje"></progress>
+
+        <p id="texto-progresso" class="descricao">Carregando...</p>
+        <p class="observacao">Para marcar um hábito como concluído, use o dashboard.</p>
+
+        <a class="botao" href="dashboard.html">Abrir meus hábitos</a>
+
+      </section>
+
+    </main>
+
+    <footer>Seus hábitos continuam salvos neste navegador.</footer>
+
+  </div>
+
+  <noscript>Ative o JavaScript para visualizar seus hábitos nesta página.</noscript>
+
+</body>
+
+</html>
