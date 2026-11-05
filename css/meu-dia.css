@@ -160,3 +160,29 @@
     align-items: flex-start;
   }
 }
+
+
+/* Caixas de seleção dos hábitos */
+.marcar-habito {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  flex: 1;
+  cursor: pointer;
+}
+
+.marcar-habito input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  margin: 0;
+  flex: none;
+  accent-color: var(--azul);
+  cursor: pointer;
+}
+
+/* Identifica atividades extras do Modo Intenso */
+.lista-dia li.extra {
+  border-style: dashed;
+}
