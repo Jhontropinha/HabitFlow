@@ -207,6 +207,14 @@ body.escuro {
   border-color: var(--cal-completo-borda);
 }
 
+/* Um dia com todos os hábitos dispensados é pausa, não conclusão. */
+.grade-dias .dia.dispensado,
+.legenda .amostra.dispensado {
+  background: #6b4c9a;
+  color: #ffffff;
+  border-color: #a78bfa;
+}
+
 /* Evita que o efeito dos botões altere a cor indicada na legenda. */
 .grade-dias .dia:hover:not(:disabled) {
   filter: none;
