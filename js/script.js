@@ -39,7 +39,8 @@ try {
         && typeof habito.nome === "string" && typeof habito.categoria === "string"
         && typeof habito.meta === "string" && typeof habito.criacao === "string"
         && ["diario", "semana", "fim-semana"].includes(habito.frequencia)
-        && Array.isArray(habito.concluidos);
+        && Array.isArray(habito.concluidos)
+        && (habito.dispensados === undefined || Array.isArray(habito.dispensados));
     });
   }
   aplicarTema(localStorage.getItem("habitflow-basico-tema") === "escuro");
@@ -80,6 +81,8 @@ function calcularSequencia(habito) {
     if (previstoNaData(habito, dia)) {
       if (habito.concluidos.includes(dia)) {
         sequencia++;
+      } else if (Array.isArray(habito.dispensados) && habito.dispensados.includes(dia)) {
+        // Uma dispensa preserva a sequência, mas não soma uma realização.
       } else if (dia !== hoje) {
         break;
       }
@@ -110,7 +113,8 @@ formulario.addEventListener("submit", function (evento) {
       frequencia: campoFrequencia.value,
       meta: meta,
       criacao: hoje,
-      concluidos: []
+      concluidos: [],
+      dispensados: []
     });
     salvarDados("Hábito adicionado! Ele aparecerá nas datas programadas.");
   } else {
@@ -166,6 +170,9 @@ function marcarHabito(id, data) {
     habito.concluidos = habito.concluidos.filter(function (dia) { return dia !== data; });
   } else {
     habito.concluidos.push(data);
+    if (Array.isArray(habito.dispensados)) {
+      habito.dispensados = habito.dispensados.filter(function (dia) { return dia !== data; });
+    }
   }
 
   salvarDados("Registro atualizado.");
@@ -183,7 +190,8 @@ function mostrarLista() {
     if (data < habito.criacao) return;
     const previsto = previstoNaData(habito, data);
     const concluido = habito.concluidos.includes(data);
-    if (filtro.value === "pendentes" && (concluido || !previsto)) return;
+    const dispensado = !concluido && Array.isArray(habito.dispensados) && habito.dispensados.includes(data);
+    if (filtro.value === "pendentes" && (concluido || !previsto || dispensado)) return;
     if (filtro.value === "concluidos" && !concluido) return;
 
     const item = document.createElement("li");
@@ -204,6 +212,7 @@ function mostrarLista() {
     const detalhes = document.createElement("p");
     detalhes.textContent = habito.categoria + " • " + nomeDaFrequencia(habito.frequencia) + " • Meta: " + habito.meta;
     if (!previsto) detalhes.textContent += " • Não previsto nesta data.";
+    if (dispensado) detalhes.textContent += " • Dispensado pelo Modo Leve (não concluído)";
     const sequencia = document.createElement("p");
     sequencia.textContent = "Sequência atual: " + calcularSequencia(habito) + " realizações seguidas.";
 
@@ -237,26 +246,34 @@ function mostrarLista() {
 function contarPeriodo(inicio, fim) {
   let previstos = 0;
   let concluidos = 0;
+  let dispensados = 0;
   const data = converterData(inicio);
-
   while (formatarData(data) <= fim) {
     const dia = formatarData(data);
     habitos.forEach(function (habito) {
-      if (previstoNaData(habito, dia)) {
+      if (!previstoNaData(habito, dia)) return;
+      const concluido = habito.concluidos.includes(dia);
+      const dispensado = !concluido && Array.isArray(habito.dispensados)
+        && habito.dispensados.includes(dia);
+      if (dispensado) {
+        dispensados++;
+      } else {
         previstos++;
-        if (habito.concluidos.includes(dia)) concluidos++;
+        if (concluido) concluidos++;
       }
     });
     data.setDate(data.getDate() + 1);
   }
-  return { previstos: previstos, concluidos: concluidos };
+  return { previstos: previstos, concluidos: concluidos, dispensados: dispensados };
 }
 
 function mostrarBarra(nome, inicio, fim) {
   const total = contarPeriodo(inicio, fim);
   const porcentagem = total.previstos === 0 ? 0 : Math.round(total.concluidos / total.previstos * 100);
   document.getElementById("barra-" + nome).value = porcentagem;
-  document.getElementById("texto-" + nome).textContent = total.concluidos + " de " + total.previstos + " concluídos (" + porcentagem + "%)";
+  document.getElementById("texto-" + nome).textContent = total.concluidos + " de " + total.previstos
+    + " concluídos (" + porcentagem + "%)"
+    + (total.dispensados ? " • " + total.dispensados + " dispensado(s)" : "");
 }
 
 function atualizarPagina() {
@@ -356,7 +373,14 @@ function habitoValidoBackup(item) {
     && Array.isArray(item.concluidos)
     && item.concluidos.every(function (data) {
       return dataValidaBackup(data) && data >= item.criacao;
-    });
+    })
+    && (item.dispensados === undefined || (
+      Array.isArray(item.dispensados) &&
+      item.dispensados.every(function (data) {
+        return dataValidaBackup(data) && data >= item.criacao
+          && !item.concluidos.includes(data);
+      })
+    ));
 }
 
 function backupValido(conteudo) {

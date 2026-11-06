@@ -46,7 +46,10 @@ function carregarHabitos() {
         && dataValida(habito.criacao)
         && ["diario", "semana", "fim-semana"].includes(habito.frequencia)
         && Array.isArray(habito.concluidos)
-        && habito.concluidos.every(dataValida);
+        && habito.concluidos.every(dataValida)
+        && (habito.dispensados === undefined || (Array.isArray(habito.dispensados) && habito.dispensados.every(function (dia) {
+          return dataValida(dia) && dia >= habito.criacao && !habito.concluidos.includes(dia);
+        })));
     });
 
     if (habitosCalendario.length !== dados.length) {
@@ -71,6 +74,7 @@ function habitosDoDia(data) {
     if (data < habito.criacao) return false;
     // Mantém visível uma conclusão mesmo após mudar a frequência do hábito.
     if (habito.concluidos.includes(data)) return true;
+    if (Array.isArray(habito.dispensados) && habito.dispensados.includes(data)) return true;
     // shortcut: a frequência não tem versões; versione-a para preservar regras antigas.
     if (habito.frequencia === "semana") return diaSemana >= 1 && diaSemana <= 5;
     if (habito.frequencia === "fim-semana") return diaSemana === 0 || diaSemana === 6;
@@ -82,11 +86,14 @@ function habitosDoDia(data) {
 function atividadesDoDia(data) {
   const atividades = habitosDoDia(data).map(function (habito) {
     const concluida = habito.concluidos.includes(data);
+    const dispensada = !concluida && Array.isArray(habito.dispensados) && habito.dispensados.includes(data);
+    const estado = concluida ? "Concluído" : dispensada ? "Dispensado (Modo Leve)" : "Pendente";
     return {
       nome: habito.nome,
       concluida,
+      dispensada,
       andamento: concluida,
-      detalhes: `${concluida ? "Concluído" : "Pendente"} • ${habito.categoria} • Meta: ${habito.meta}`
+      detalhes: `${estado} • ${habito.categoria} • Meta: ${habito.meta}`
     };
   });
 
@@ -96,6 +103,7 @@ function atividadesDoDia(data) {
     atividades.push({
       nome: "Meta: " + meta.nome,
       concluida: resumo.concluida,
+      dispensada: false,
       andamento: resumo.andamento,
       detalhes: `${resumo.concluida ? "Cumprida" : resumo.andamento ? "Em andamento" : "Pendente"} • ${resumo.total} de ${meta.alvo} ${resumo.unidade}`
     });
@@ -118,12 +126,15 @@ function mostrarCalendario() {
   const data = new Date(mesVisivel);
   while (data.getMonth() === mesVisivel.getMonth()) {
     const chave = formatarData(data);
-    const previstos = atividadesDoDia(chave);
-    const feitos = previstos.filter(item => item.concluida).length;
-    const temProgresso = previstos.some(item => item.andamento);
+    const atividades = atividadesDoDia(chave);
+    const exigidas = atividades.filter(item => !item.dispensada);
+    const dispensadas = atividades.length - exigidas.length;
+    const feitos = exigidas.filter(item => item.concluida).length;
+    const temProgresso = exigidas.some(item => item.andamento);
     const futuro = chave > hoje;
     let estado = "sem-habitos";
-    if (previstos.length > 0) estado = feitos === previstos.length ? "completo" : temProgresso ? "parcial" : "pendente";
+    if (exigidas.length > 0) estado = feitos === exigidas.length ? "completo" : temProgresso ? "parcial" : "pendente";
+    else if (dispensadas > 0) estado = "dispensado";
 
     const botao = document.createElement("button");
     botao.type = "button";
@@ -133,14 +144,14 @@ function mostrarCalendario() {
     botao.setAttribute("aria-pressed", String(chave === selecionada));
     if (chave === hoje) botao.setAttribute("aria-current", "date");
 
-    const descricao = futuro ? "Data futura" : previstos.length === 0
-      ? "Sem hábitos ou metas previstos ou registrados" : `${feitos} de ${previstos.length} concluídos`;
+    const descricao = futuro ? "Data futura" : atividades.length === 0
+      ? "Sem hábitos ou metas previstos ou registrados" : `${feitos} de ${exigidas.length} concluídos` + (dispensadas ? `, ${dispensadas} dispensado(s)` : "");
     botao.setAttribute("aria-label", data.toLocaleDateString("pt-BR", { dateStyle: "full" }) + ": " + descricao);
 
     const numero = document.createElement("span");
     numero.textContent = data.getDate();
     const total = document.createElement("small");
-    total.textContent = futuro ? "Futuro" : previstos.length === 0 ? "—" : `${feitos}/${previstos.length}`;
+    total.textContent = futuro ? "Futuro" : atividades.length === 0 ? "—" : exigidas.length === 0 ? "Pausa" : `${feitos}/${exigidas.length}`;
     botao.append(numero, total);
     grade.append(botao);
     data.setDate(data.getDate() + 1);
@@ -161,12 +172,16 @@ function mostrarCalendario() {
 function mostrarHistorico() {
   tituloDia.textContent = converterData(selecionada).toLocaleDateString("pt-BR", { dateStyle: "long" });
   historico.replaceChildren();
-  const previstos = atividadesDoDia(selecionada);
-  const feitos = previstos.filter(item => item.concluida).length;
-  resumoDia.textContent = previstos.length === 0 ? "Sem hábitos previstos ou registrados nesta data."
-    : `${feitos} de ${previstos.length} concluídos (${Math.round(feitos / previstos.length * 100)}%).`;
+  const atividades = atividadesDoDia(selecionada);
+  const exigidas = atividades.filter(item => !item.dispensada);
+  const dispensadas = atividades.length - exigidas.length;
+  const feitos = exigidas.filter(item => item.concluida).length;
+  resumoDia.textContent = atividades.length === 0 ? "Sem hábitos previstos ou registrados nesta data."
+    : `${feitos} de ${exigidas.length} concluídos` +
+      (exigidas.length ? ` (${Math.round(feitos / exigidas.length * 100)}%)` : "") +
+      (dispensadas ? ` • ${dispensadas} dispensado(s) no Modo Leve` : "") + ".";
 
-  previstos.forEach(function (atividade) {
+  atividades.forEach(function (atividade) {
     const item = document.createElement("li");
     const nome = document.createElement("strong");
     const detalhes = document.createElement("p");
