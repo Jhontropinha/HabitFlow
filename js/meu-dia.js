@@ -74,7 +74,14 @@ function lerHabitos() {
       typeof item.categoria !== "string" ||
       typeof item.criacao !== "string" ||
       !["diario", "semana", "fim-semana"].includes(item.frequencia) ||
-      !Array.isArray(item.concluidos)
+      !Array.isArray(item.concluidos) ||
+      (item.dispensados !== undefined && (
+        !Array.isArray(item.dispensados) ||
+        !item.dispensados.every(function (dia) {
+          return typeof dia === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dia)
+            && dia >= item.criacao && !item.concluidos.includes(dia);
+        })
+      ))
     ) {
       return false;
     }
@@ -248,6 +255,9 @@ function alternarConclusao(id) {
       });
     } else {
       habito.concluidos.push(hoje);
+      if (Array.isArray(habito.dispensados)) {
+        habito.dispensados = habito.dispensados.filter(function (dia) { return dia !== hoje; });
+      }
     }
 
     localStorage.setItem(
@@ -266,48 +276,68 @@ function alternarConclusao(id) {
 }
 
 // Atualiza a seleção visual e a rotina.
+// Uma dispensa protege a sequência, mas nunca é uma conclusão.
+function atualizarDispensasDoDia(modo) {
+  const habitos = lerHabitos();
+  const programados = habitos.filter(previstoHoje);
+  const limite = Math.ceil(programados.length / 2);
+  const ativos = new Set(programados.slice(0, limite).map(function (h) { return h.id; }));
+
+  let mudou = false;
+  habitos.forEach(function (habito) {
+    const anteriores = Array.isArray(habito.dispensados) ? habito.dispensados : [];
+    const dispensar = modo === "leve" && previstoHoje(habito)
+      && !ativos.has(habito.id) && !habito.concluidos.includes(hoje);
+    const novos = anteriores.filter(function (dia) { return dia !== hoje; });
+    if (dispensar) novos.push(hoje);
+    if (JSON.stringify(novos) !== JSON.stringify(anteriores)) {
+      habito.dispensados = novos;
+      mudou = true;
+    }
+  });
+
+  if (mudou) {
+    localStorage.setItem(CHAVE_HABITOS, JSON.stringify(habitos));
+  }
+  return habitos.filter(function (h) {
+    return Array.isArray(h.dispensados) && h.dispensados.includes(hoje);
+  }).length;
+}
+
 function escolherModo(modo) {
   if (!Object.hasOwn(nomesModo, modo)) return;
+  let dispensados = 0;
+  try {
+    dispensados = atualizarDispensasDoDia(modo);
+  } catch (erro) {
+    exibirMensagem("Não foi possível salvar as dispensas. Os dados anteriores foram preservados.");
+    return;
+  }
 
   modoAtual = modo;
-
   botoesModo.forEach(function (botao) {
-    botao.setAttribute(
-      "aria-pressed",
-      String(botao.dataset.modo === modo)
-    );
+    botao.setAttribute("aria-pressed", String(botao.dataset.modo === modo));
   });
 
   const explicacoes = {
-    leve: "Exibe a primeira metade dos hábitos programados. Os demais continuam salvos e programados no dashboard.",
-    normal: "Exibe todos os hábitos previstos para hoje.",
-    intenso: "Exibe os hábitos de hoje e até 2 extras opcionais. Extras não mudam a frequência nem as estatísticas do dashboard."
+    leve: "Metade dos hábitos programados fica ativa; os outros recebem uma dispensa hoje, sem conclusão fictícia.",
+    normal: "Todos os hábitos previstos ficam ativos. As dispensas de hoje são canceladas.",
+    intenso: "Todos os previstos e até dois extras opcionais. As dispensas de hoje são canceladas."
   };
-
-  avisoModo.textContent =
-    "Modo " + nomesModo[modo] + ". " + explicacoes[modo];
-
+  avisoModo.textContent = "Modo " + nomesModo[modo] + ". " + explicacoes[modo]
+    + (dispensados ? " " + dispensados + " hábito(s) dispensado(s) hoje." : "");
   mostrarHabitos();
+
+  try {
+    localStorage.setItem(CHAVE_MODO, JSON.stringify({ data: hoje, modo: modo }));
+  } catch (erro) {
+    exibirMensagem("O modo funciona, mas a preferência não pôde ser salva.");
+  }
 }
 
-// Eventos dos três modos.
 botoesModo.forEach(function (botao) {
   botao.addEventListener("click", function () {
     escolherModo(botao.dataset.modo);
-
-    try {
-      localStorage.setItem(
-        CHAVE_MODO,
-        JSON.stringify({
-          data: hoje,
-          modo: modoAtual
-        })
-      );
-    } catch (erro) {
-      exibirMensagem(
-        "Modo selecionado, mas não foi possível guardar a preferência."
-      );
-    }
   });
 });
 
