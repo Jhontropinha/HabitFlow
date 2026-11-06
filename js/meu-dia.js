@@ -396,5 +396,18 @@ try {
   modoAtual = "normal";
 }
 
+// Se o backup restaurou dispensas de hoje, elas indicam que o dia era Leve.
+// Recupera o Modo Leve antes de chamar escolherModo; abrir a página não
+// deve apagar dispensas restauradas por uma preferência antiga de Modo Normal.
+try {
+  const habitosRestaurados = lerHabitos();
+  const possuiDispensaHoje = habitosRestaurados.some(function (habito) {
+    return Array.isArray(habito.dispensados) && habito.dispensados.includes(hoje);
+  });
+  if (possuiDispensaHoje) modoAtual = "leve";
+} catch (erro) {
+  // Se os dados estiverem inválidos, mostrarHabitos informará o erro.
+}
+
 // Inicialização.
 escolherModo(modoAtual);
