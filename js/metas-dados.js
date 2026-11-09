@@ -30,7 +30,7 @@ export function quantidadeValida(valor, tipo, minimo = 0) {
 }
 
 // Se houver dados inválidos, interrompe a gravação para preservá-los.
-function validarMetas(metas) {
+export function validarMetas(metas) {
   if (!Array.isArray(metas)) {
     throw new Error("A lista de metas salva é inválida.");
   }

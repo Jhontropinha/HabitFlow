@@ -83,33 +83,92 @@ function habitosDoDia(data) {
 }
 
 // Hábitos e metas compartilham a contagem e as cores do calendário.
+
 function atividadesDoDia(data) {
   const atividades = habitosDoDia(data).map(function (habito) {
     const concluida = habito.concluidos.includes(data);
-    const dispensada = !concluida && Array.isArray(habito.dispensados) && habito.dispensados.includes(data);
-    const estado = concluida ? "Concluído" : dispensada ? "Dispensado (Modo Leve)" : "Pendente";
+
+    const dispensada =
+      !concluida &&
+      Array.isArray(habito.dispensados) &&
+      habito.dispensados.includes(data);
+
+    const diaSemana = converterData(data).getDay();
+
+    const programada =
+      habito.frequencia === "diario" ||
+      (habito.frequencia === "semana" &&
+        diaSemana >= 1 && diaSemana <= 5) ||
+      (habito.frequencia === "fim-semana" &&
+        (diaSemana === 0 || diaSemana === 6));
+
+    // Uma conclusão fora da frequência atual é um extra.
+    const extra = concluida && !programada;
+
+    const estado = concluida
+      ? "Concluído"
+      : dispensada
+        ? "Dispensado (Modo Leve)"
+        : "Pendente";
+
     return {
       nome: habito.nome,
-      concluida,
-      dispensada,
+      concluida: concluida,
+      dispensada: dispensada,
       andamento: concluida,
-      detalhes: `${estado} • ${habito.categoria} • Meta: ${habito.meta}`
+      extra: extra,
+
+      // Extras não fazem parte das atividades exigidas.
+      contaNoProgresso: !extra,
+
+      detalhes:
+        estado +
+        (extra ? " • Extra fora da frequência atual" : "") +
+        " • " + habito.categoria +
+        " • Meta: " + habito.meta
     };
   });
 
+  // Metas diárias e semanais possuem contagens diferentes.
   metasCalendario.forEach(function (meta) {
     const resumo = resumoMeta(meta, data);
+
     if (!resumo) return;
+
+    const semanal = meta.tipo === "vezes-semana";
+    const realizadasHoje = meta.registros[data] || 0;
+
     atividades.push({
       nome: "Meta: " + meta.nome,
       concluida: resumo.concluida,
       dispensada: false,
       andamento: resumo.andamento,
-      detalhes: `${resumo.concluida ? "Cumprida" : resumo.andamento ? "Em andamento" : "Pendente"} • ${resumo.total} de ${meta.alvo} ${resumo.unidade}`
+      extra: false,
+      semanal: semanal,
+
+      // Metas semanais não contam como conclusão diária.
+      contaNoProgresso: !semanal,
+
+      detalhes: semanal
+        ? "Meta semanal • " +
+          resumo.total + " de " + meta.alvo +
+          " realizações acumuladas até este dia" +
+          " • " + realizadasHoje +
+          " realização(ões) nesta data"
+        : (resumo.concluida
+            ? "Cumprida"
+            : resumo.andamento
+              ? "Em andamento"
+              : "Pendente") +
+          " • " + resumo.total +
+          " de " + meta.alvo +
+          " " + resumo.unidade
     });
   });
+
   return atividades;
 }
+
 
 function mostrarCalendario() {
   const hoje = formatarData(new Date());
@@ -127,8 +186,16 @@ function mostrarCalendario() {
   while (data.getMonth() === mesVisivel.getMonth()) {
     const chave = formatarData(data);
     const atividades = atividadesDoDia(chave);
-    const exigidas = atividades.filter(item => !item.dispensada);
-    const dispensadas = atividades.length - exigidas.length;
+     const exigidas = atividades.filter(function (item) {
+  return !item.dispensada && item.contaNoProgresso;
+});
+    const dispensadas = atividades.filter(function (item) {
+  return item.dispensada;
+}).length;
+
+const extras = atividades.filter(function (item) {
+  return item.extra;
+}).length;
     const feitos = exigidas.filter(item => item.concluida).length;
     const temProgresso = exigidas.some(item => item.andamento);
     const futuro = chave > hoje;
@@ -144,14 +211,32 @@ function mostrarCalendario() {
     botao.setAttribute("aria-pressed", String(chave === selecionada));
     if (chave === hoje) botao.setAttribute("aria-current", "date");
 
-    const descricao = futuro ? "Data futura" : atividades.length === 0
-      ? "Sem hábitos ou metas previstos ou registrados" : `${feitos} de ${exigidas.length} concluídos` + (dispensadas ? `, ${dispensadas} dispensado(s)` : "");
-    botao.setAttribute("aria-label", data.toLocaleDateString("pt-BR", { dateStyle: "full" }) + ": " + descricao);
+    const descricao = futuro
+  ? "Data futura"
+  : (exigidas.length > 0
+      ? `${feitos} de ${exigidas.length} concluídos`
+      : "Sem atividades diárias exigidas")
+    + (dispensadas
+        ? `, ${dispensadas} dispensado(s)`
+        : "")
+    + (extras
+        ? `, ${extras} extra(s) concluído(s)`
+        : "");
 
     const numero = document.createElement("span");
     numero.textContent = data.getDate();
     const total = document.createElement("small");
-    total.textContent = futuro ? "Futuro" : atividades.length === 0 ? "—" : exigidas.length === 0 ? "Pausa" : `${feitos}/${exigidas.length}`;
+    
+total.textContent = futuro
+  ? "Futuro"
+  : exigidas.length > 0
+    ? `${feitos}/${exigidas.length}`
+    : dispensadas > 0
+      ? "Pausa"
+      : extras > 0
+        ? `${extras} extra(s)`
+        : "—";
+
     botao.append(numero, total);
     grade.append(botao);
     data.setDate(data.getDate() + 1);
@@ -173,13 +258,60 @@ function mostrarHistorico() {
   tituloDia.textContent = converterData(selecionada).toLocaleDateString("pt-BR", { dateStyle: "long" });
   historico.replaceChildren();
   const atividades = atividadesDoDia(selecionada);
-  const exigidas = atividades.filter(item => !item.dispensada);
-  const dispensadas = atividades.length - exigidas.length;
-  const feitos = exigidas.filter(item => item.concluida).length;
-  resumoDia.textContent = atividades.length === 0 ? "Sem hábitos previstos ou registrados nesta data."
-    : `${feitos} de ${exigidas.length} concluídos` +
-      (exigidas.length ? ` (${Math.round(feitos / exigidas.length * 100)}%)` : "") +
-      (dispensadas ? ` • ${dispensadas} dispensado(s) no Modo Leve` : "") + ".";
+  
+const exigidas = atividades.filter(function (item) {
+  return !item.dispensada && item.contaNoProgresso;
+});
+
+const dispensadas = atividades.filter(function (item) {
+  return item.dispensada;
+}).length;
+
+const extras = atividades.filter(function (item) {
+  return item.extra;
+}).length;
+
+const metasSemanais = atividades.filter(function (item) {
+  return item.semanal;
+}).length;
+
+const feitos = exigidas.filter(function (item) {
+  return item.concluida;
+}).length;
+
+if (atividades.length === 0) {
+  resumoDia.textContent =
+    "Sem hábitos previstos ou registrados nesta data.";
+} else {
+  const partes = [];
+
+  if (exigidas.length > 0) {
+    const porcentagem = Math.round(
+      feitos / exigidas.length * 100
+    );
+
+    partes.push(
+      `${feitos} de ${exigidas.length} concluídos (${porcentagem}%)`
+    );
+  } else {
+    partes.push("Nenhuma atividade diária exigida");
+  }
+
+  if (dispensadas > 0) {
+    partes.push(`${dispensadas} dispensado(s) no Modo Leve`);
+  }
+
+  if (extras > 0) {
+    partes.push(`${extras} extra(s) concluído(s)`);
+  }
+
+  if (metasSemanais > 0) {
+    partes.push(`${metasSemanais} meta(s) semanais em acompanhamento`);
+  }
+
+  resumoDia.textContent = partes.join(" • ") + ".";
+}
+
 
   atividades.forEach(function (atividade) {
     const item = document.createElement("li");

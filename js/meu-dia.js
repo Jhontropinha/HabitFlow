@@ -154,13 +154,25 @@ function mostrarHabitos() {
   }
 
   listaDia.replaceChildren();
-  let concluidos = 0;
+  // Atividades obrigatórias e extras são contabilizadas separadamente.
+let concluidosObrigatorios = 0;
+let extrasConcluidos = 0;
+
+const totalObrigatorios = selecionados.filter(function (entrada) {
+  return !entrada.extra;
+}).length;
 
   selecionados.forEach(function (entrada) {
     const habito = entrada.habito;
     const finalizado = habito.concluidos.includes(hoje);
 
-    if (finalizado) concluidos++;
+    if (finalizado) {
+  if (entrada.extra) {
+    extrasConcluidos++;
+  } else {
+    concluidosObrigatorios++;
+  }
+}
 
     const item = document.createElement("li");
 
@@ -225,15 +237,20 @@ function mostrarHabitos() {
       "Nenhum hábito para este modo hoje. Cadastre hábitos no dashboard.";
   }
 
-  const porcentagem = selecionados.length
-    ? Math.round(concluidos / selecionados.length * 100)
-    : 0;
+  const porcentagem = totalObrigatorios
+  ? Math.round(
+      concluidosObrigatorios / totalObrigatorios * 100
+    )
+  : 0;
 
-  barraDia.value = porcentagem;
+barraDia.value = porcentagem;
 
-  textoProgresso.textContent =
-    concluidos + " de " + selecionados.length +
-    " hábitos exibidos concluídos (" + porcentagem + "%).";
+textoProgresso.textContent =
+  concluidosObrigatorios + " de " + totalObrigatorios +
+  " hábitos obrigatórios concluídos (" + porcentagem + "%)." +
+  (modoAtual === "intenso"
+    ? " • " + extrasConcluidos + " extra(s) concluído(s)."
+    : "");
 }
 
 // Marca ou desmarca o hábito e salva no navegador.
