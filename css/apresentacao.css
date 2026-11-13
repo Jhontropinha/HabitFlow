@@ -1,0 +1,70 @@
+/* HabitFlow: recursos demonstrativos de HTML + CSS, sem JavaScript. */
+:root { --hf-verde: #16855e; --hf-amarelo: #d7a72b; }
+.aviso-demonstracao { padding: 13px 16px; background: #edf3ff; color: #273667; border: 1px solid #cbd7ff; border-radius: 12px; margin: 18px 0 28px; font-size: 14px; }
+.selo-demonstracao { display: inline-block; padding: 5px 10px; border-radius: 999px; background: #e8ecff; color: #2424b4; font-weight: bold; font-size: 12px; }
+.destaque-dia { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 24px; }
+.destaque-dia h1 { margin-bottom: 12px; }
+.metricas { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-bottom: 28px; }
+.metrica { border: 1px solid var(--borda); border-radius: 14px; padding: 20px; background: var(--superficie-suave); }
+.metrica strong { display: block; font-size: clamp(26px,3vw,40px); line-height: 1.3; }
+.metrica span { color: var(--texto-suave); font-size: 14px; }
+.titulo-com-acao { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.titulo-com-acao h2 { margin: 0; }
+.grade-cartoes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.habito-demo, .meta-demo { border: 1px solid var(--borda); background: var(--superficie-suave); border-radius: 14px; padding: 22px; }
+.habito-demo label { display: flex; align-items: flex-start; gap: 12px; font-weight: 700; font-size: 18px; cursor: pointer; }
+.habito-demo input[type="checkbox"] { width: 24px; height: 24px; min-height: 24px; flex: none; accent-color: var(--hf-verde); }
+.habito-demo:has(input:checked) { border-color: #79bea5; background: #ebf9f2; }
+.habito-demo:has(input:checked) label span { text-decoration: line-through; }
+.habito-demo p, .meta-demo p { margin: 14px 0 0; color: var(--texto-suave); font-size: 14px; }
+.nota-interacao { color: var(--texto-suave); font-size: 13px; margin-top: 14px; }
+.progresso-ilustrativo { display: grid; gap: 9px; }
+.progresso-ilustrativo progress { width: 100%; height: 14px; accent-color: var(--hf-verde); }
+.progresso-ilustrativo small { color: var(--texto-suave); }
+.bloco + .bloco { margin-top: 24px; }
+.modo-demo { --modo-borda: var(--borda); }
+.modo-demo input[type="radio"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.modo-demo .opcao { display: inline-flex; flex-direction: column; gap: 6px; vertical-align: top; width: calc(33.333% - 10px); min-height: 116px; margin: 0 9px 16px 0; padding: 18px; border: 2px solid var(--borda); border-radius: 12px; background: var(--superficie-suave); cursor: pointer; }
+.modo-demo .opcao strong { font-size: 19px; }
+.modo-demo .opcao small { color: var(--texto-suave); }
+.modo-demo input:focus-visible + .opcao { outline: 3px solid var(--azul); outline-offset: 3px; }
+#modo-leve:checked + .opcao, #modo-normal:checked + .opcao, #modo-intenso:checked + .opcao { border-color: var(--azul); background: #ecf0ff; }
+.modo-demo .rotina { display: none; border-top: 1px solid var(--borda); padding-top: 22px; }
+#modo-leve:checked ~ .rotinas .rotina-leve,
+#modo-normal:checked ~ .rotinas .rotina-normal,
+#modo-intenso:checked ~ .rotinas .rotina-intensa { display: block; }
+.lista-rotina { display: grid; gap: 10px; list-style: none; margin: 18px 0 0; padding: 0; }
+.lista-rotina li { background: var(--superficie-suave); padding: 15px; border-radius: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+.lista-rotina .indicacao { color: var(--texto-suave); font-size: 13px; }
+.lista-rotina .dispensa { color: #735baa; font-weight: 700; }
+.calendario-estatico { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 8px; }
+.calendario-estatico .semana-dia { font-size: 13px; color: var(--texto-suave); text-align: center; padding: 8px 0; }
+.calendario-estatico a, .calendario-estatico .vazio { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 74px; border: 1px solid var(--borda); border-radius: 10px; background: var(--superficie-suave); text-decoration: none; }
+.calendario-estatico a:focus-visible { outline: 3px solid var(--azul); outline-offset: 2px; }
+.calendario-estatico a small { font-size: 10px; }
+.calendario-estatico a.completo { background: #d8f5e5; color: #135539; }
+.calendario-estatico a.parcial { background: #fff0c4; color: #674400; }
+.calendario-estatico a.dispensado { background: #ece3ff; color: #493079; }
+.calendario-estatico a.pendente { background: #ffe8e8; color: #7d2626; }
+.legenda-estatica { display: flex; flex-wrap: wrap; gap: 10px 18px; list-style: none; padding: 0; color: var(--texto-suave); font-size: 13px; }
+.legenda-estatica li::before { content: "●"; margin-right: 7px; }
+.legenda-estatica .feito::before { color: #16855e; }
+.legenda-estatica .parte::before { color: #d7a72b; }
+.legenda-estatica .pausa::before { color: #8d6fc4; }
+.exemplo-dia { display: grid; gap: 10px; }
+.exemplo-dia details { background: var(--superficie-suave); border: 1px solid var(--borda); border-radius: 10px; padding: 16px; }
+.exemplo-dia summary { cursor: pointer; font-weight: 700; }
+.exemplo-dia p { margin: 12px 0 0; color: var(--texto-suave); }
+.meta-demo h3 { margin: 0 0 8px; }
+.meta-demo progress { width: 100%; accent-color: var(--hf-verde); margin-top: 15px; }
+.secao-explicacao { margin-top: 34px; }
+.secao-explicacao details { padding: 16px 0; border-bottom: 1px solid var(--borda); }
+.secao-explicacao summary { font-weight: bold; cursor: pointer; }
+footer { margin-top: 35px; }
+@media (max-width: 750px) {
+  .metricas, .grade-cartoes { grid-template-columns: 1fr; }
+  .modo-demo .opcao { display: flex; width: 100%; min-height: auto; margin-right: 0; }
+  .calendario-estatico { gap: 4px; }
+  .calendario-estatico a, .calendario-estatico .vazio { min-height: 55px; font-size: 13px; }
+  .calendario-estatico a small { font-size: 9px; }
+}

@@ -1,131 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Metas | HabitFlow</title>
-
-  <!-- Reaproveita a identidade visual e o tema do projeto. -->
+  <meta name="description" content="HabitFlow: demonstração visual de hábitos construída somente com HTML e CSS.">
+  <title>Minhas metas | HabitFlow</title>
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/metas.css">
-
-  <script src="../js/inicio.js" defer></script>
-  <script src="../js/metas.js" type="module"></script>
+  <link rel="stylesheet" href="../css/apresentacao.css">
 </head>
-
 <body>
-  <div class="painel">
-    <header class="cabecalho">
-      <a class="logo" href="index.html">HabitFlow</a>
+<div class="painel">
+  <header class="cabecalho">
+    <a class="logo" href="index.html">HabitFlow</a>
+    <nav aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="dashboard.html">Hábitos</a>
+      <a href="meu-dia.html">Meu Dia</a>
+      <a href="calendario.html">Calendário</a>
+      <a href="metas.html" aria-current="page">Metas</a>
+    </nav>
+  </header>
+  <main>
 
-      <nav aria-label="Navegação principal">
-        <a href="dashboard.html">Hábitos</a>
-        <a href="calendario.html">Calendário</a>
-        <a href="metas.html">Metas</a>
-        <a href="index.html">Início</a>
-      </nav>
-
-      <button id="tema" type="button" aria-pressed="false">
-        Modo escuro
-      </button>
-    </header>
-
-    <main>
-      <section aria-labelledby="titulo-pagina">
-        <p class="etiqueta">Pequenas ações, objetivos claros</p>
-        <h1 id="titulo-pagina">Minhas metas</h1>
-        <p>Defina seu objetivo e acompanhe cada avanço.</p>
-      </section>
-
-      <p id="mensagem" role="status" aria-live="polite"></p>
-
-      <section aria-labelledby="titulo-acompanhamento">
-        <div class="ferramentas-metas">
-          <h2 id="titulo-acompanhamento">Meu acompanhamento</h2>
-
-          <div>
-            <label for="data-meta">Data do registro</label>
-            <input id="data-meta" type="date" required>
-          </div>
-
-          <button id="atualizar-metas" class="secundario" type="button">
-            Atualizar
-          </button>
-        </div>
-
-        <p class="ajuda-meta">
-          Informe o total realizado na data. Salvar novamente substitui
-          o valor anterior. Use zero para remover o registro.
-        </p>
-
-        <!-- O JavaScript preenche a lista com as metas cadastradas. -->
-        <ul id="lista-metas" class="lista-metas"></ul>
-
-        <p id="metas-vazias" class="estado-vazio">
-          Você ainda não tem metas para esta data.
-        </p>
-      </section>
-
-      <section class="bloco" aria-labelledby="titulo-cadastro">
-        <h2 id="titulo-cadastro">Nova meta</h2>
-
-        <form id="formulario-meta">
-          <fieldset id="campos-meta">
-            <label for="nome-meta">Nome do objetivo</label>
-            <input
-              id="nome-meta"
-              type="text"
-              maxlength="60"
-              placeholder="Ex.: Ler ou estudar"
-              required
-            >
-
-            <div class="colunas">
-              <div>
-                <label for="tipo-meta">Como acompanhar</label>
-                <select id="tipo-meta">
-                  <option value="minutos-dia">Minutos por dia</option>
-                  <option value="vezes-semana">Realizações por semana</option>
-                </select>
-              </div>
-
-              <div>
-                <label id="rotulo-alvo" for="alvo-meta">
-                  Minutos por dia
-                </label>
-                <input
-                  id="alvo-meta"
-                  type="number"
-                  min="1"
-                  max="1440"
-                  step="1"
-                  placeholder="Ex.: 30"
-                  required
-                >
-              </div>
-            </div>
-
-            <p class="ajuda-meta">
-              A meta começa hoje. A semana vai de segunda a domingo.
-              Nas metas semanais, registre quantas realizações fez em cada dia.
-            </p>
-
-            <button type="submit">Criar meta</button>
-          </fieldset>
-        </form>
-      </section>
-
-      <p class="ajuda-meta">
-        As metas também aparecem no calendário. Os registros são separados
-        das marcações de hábitos da dashboard.
-      </p>
-    </main>
-
-    <footer>Seus hábitos e metas ficam salvos neste navegador.</footer>
+<section class="destaque-dia">
+  <div>
+    <p class="etiqueta">Transforme intenção em resultado</p>
+    <h1>Minhas metas</h1>
+    <p class="descricao">Planejar, visualizar e acompanhar objetivos de forma organizada.</p>
   </div>
+  <span class="selo-demonstracao">Metas ilustrativas</span>
+</section>
+<p class="aviso-demonstracao"><strong>Protótipo estático:</strong> os valores das metas são exemplos em HTML. Os indicadores são renderizados pelo navegador e não são atualizados automaticamente.</p>
+<section class="bloco" aria-labelledby="titulo-acompanhamento">
+  <h2 id="titulo-acompanhamento">Exemplos de acompanhamento</h2>
+  <div class="grade-cartoes">
+    <article class="meta-demo">
+      <h3>Estudar programação</h3>
+      <p>Objetivo: 5 sessões de estudo por semana</p>
+      <progress value="4" max="5" aria-label="4 de 5 sessões de estudo">4 de 5</progress>
+      <p><strong>4 de 5 sessões</strong> • 80% ilustrativo</p>
+    </article>
+    <article class="meta-demo">
+      <h3>Praticar exercícios</h3>
+      <p>Objetivo: 4 treinos semanais</p>
+      <progress value="3" max="4" aria-label="3 de 4 treinos">3 de 4</progress>
+      <p><strong>3 de 4 treinos</strong> • 75% ilustrativo</p>
+    </article>
+    <article class="meta-demo">
+      <h3>Ler livros</h3>
+      <p>Objetivo: 200 páginas no mês</p>
+      <progress value="120" max="200" aria-label="120 de 200 páginas">120 de 200</progress>
+      <p><strong>120 de 200 páginas</strong> • 60% ilustrativo</p>
+    </article>
+    <article class="meta-demo">
+      <h3>Organizar a rotina</h3>
+      <p>Objetivo: organizar as atividades em 7 dias</p>
+      <progress value="5" max="7" aria-label="5 de 7 dias">5 de 7</progress>
+      <p><strong>5 de 7 dias</strong> • 71% ilustrativo</p>
+    </article>
+  </div>
+</section>
+<section class="bloco" aria-labelledby="titulo-futuro">
+  <h2 id="titulo-futuro">Como seria o acompanhamento real?</h2>
+  <div class="secao-explicacao">
+    <details><summary>1. Definir a meta</summary><p>O usuário escolheria objetivo, período e quantidade desejada.</p></details>
+    <details><summary>2. Registrar o progresso</summary><p>O usuário indicaria as atividades realizadas e as informações seriam salvas em uma versão futura com programação.</p></details>
+    <details><summary>3. Visualizar a evolução</summary><p>As barras mostrariam porcentagens calculadas automaticamente. Aqui exibimos somente o conceito visual.</p></details>
+  </div>
+  <a class="botao" href="meu-dia.html">Conhecer os modos adaptativos</a>
+</section>
 
-  <noscript>Ative o JavaScript para acompanhar suas metas.</noscript>
+  </main>
+  <footer>HabitFlow • Protótipo acadêmico feito com HTML e CSS • Dados ilustrativos, sem armazenamento.</footer>
+</div>
 </body>
-
 </html>

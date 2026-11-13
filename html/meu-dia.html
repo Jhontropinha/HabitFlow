@@ -1,152 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="description" content="HabitFlow: protótipo de interface para organizar hábitos, desenvolvido somente com HTML e CSS.">
   <title>Meu Dia | HabitFlow</title>
-
-  <!-- Reutiliza o visual do dashboard e adiciona estilos desta página. -->
-
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/meu-dia.css">
-
-  <script src="../js/meu-dia.js" defer></script>
-
+  <link rel="stylesheet" href="../css/apresentacao.css">
 </head>
-
 <body>
+<div class="painel">
+  <header class="cabecalho">
+    <a class="logo" href="index.html">HabitFlow</a>
+    <nav aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="dashboard.html">Hábitos</a>
+      <a href="meu-dia.html" aria-current="page">Meu Dia</a>
+      <a href="calendario.html">Calendário</a>
+      <a href="metas.html">Metas</a>
+    </nav>
+  </header>
+  <main>
 
-  <div class="painel">
-
-    <header class="cabecalho">
-
-      <a class="logo" href="index.html">HabitFlow</a>
-
-      <nav aria-label="Navegação principal">
-
-        <a href="dashboard.html">Hábitos</a>
-        <a href="meu-dia.html" aria-current="page">Meu Dia</a>
-        <a href="calendario.html">Calendário</a>
-        <a href="metas.html">Metas</a>
-        <a href="index.html">Início</a>
-
-      </nav>
-
-      <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
-
-    </header>
-
-    <main>
-
-      <section class="boas-vindas" aria-labelledby="titulo-dia">
-
-        <p class="etiqueta">Sua rotina, no seu ritmo</p>
-
-        <h1 id="titulo-dia">Meu Dia</h1>
-
-        <p id="data-atual" class="descricao"></p>
-        <p class="descricao">Veja o que está planejado para hoje e acompanhe seu progresso.</p>
-
-      </section>
-
-      <section class="bloco" aria-labelledby="titulo-modos">
-
-        <h2 id="titulo-modos">Como está seu ritmo hoje?</h2>
-
-        <p class="descricao">Escolha sua intensidade. No Modo Leve, os hábitos dispensados hoje não quebram a sequência.</p>
-
-        <div class="opcoes-modo" role="group" aria-label="Intensidade do dia">
-
-          <button class="modo" type="button" data-modo="leve" aria-pressed="false">
-
-            <span class="modo-icone" aria-hidden="true">🌿</span>
-
-            <strong>Leve</strong>
-
-            <span>Um dia com menos atividades</span>
-
-          </button>
-
-          <button class="modo" type="button" data-modo="normal" aria-pressed="true">
-
-            <span class="modo-icone" aria-hidden="true">☀️</span>
-
-            <strong>Normal</strong>
-
-            <span>Seu ritmo habitual</span>
-
-          </button>
-
-          <button class="modo" type="button" data-modo="intenso" aria-pressed="false">
-
-            <span class="modo-icone" aria-hidden="true">⚡</span>
-
-            <strong>Intenso</strong>
-
-            <span>Um dia com mais atividades</span>
-
-          </button>
-
-        </div>
-
-        <p id="aviso-modo" class="aviso-modo" role="status" aria-live="polite">
-          Modo Normal selecionado. Todos os hábitos previstos ficam ativos.
-        </p>
-
-      </section>
-
-      <section class="bloco" aria-labelledby="titulo-habitos">
-
-        <div class="cabecalho-lista">
-
-          <div>
-
-            <h2 id="titulo-habitos">Hábitos de hoje</h2>
-
-            <p class="descricao">Dados carregados do seu dashboard.</p>
-
-          </div>
-
-          <a class="botao" href="dashboard.html#cadastro">+ Novo hábito</a>
-
-        </div>
-
-        <ul id="lista-dia" class="lista-dia" aria-label="Hábitos programados para hoje"></ul>
-
-        <p id="lista-vazia" class="estado-vazio" hidden></p>
-        <p id="mensagem" role="alert" hidden></p>
-
-      </section>
-
-      <section class="bloco" aria-labelledby="titulo-progresso">
-
-        <h2 id="titulo-progresso">Meu progresso de hoje</h2>
-
-        <progress id="barra-dia" value="0" max="100" aria-label="Progresso dos hábitos de hoje"></progress>
-
-        <p id="texto-progresso" class="descricao">Carregando...</p>
-        <p class="descricao">
-
-          Escolha a intensidade do dia.
-          As atividades continuam salvas no dashboard.
-
-        </p>
-
-        <a class="botao" href="dashboard.html">Abrir meus hábitos</a>
-
-      </section>
-
-    </main>
-
-    <footer>Seus hábitos continuam salvos neste navegador.</footer>
-
+<section class="destaque-dia">
+  <div>
+    <p class="etiqueta">Sua rotina, no seu ritmo</p>
+    <h1>Meu Dia</h1>
+    <p class="descricao">Uma rotina que se ajusta ao seu tempo e à sua energia.</p>
   </div>
+  <span class="selo-demonstracao">Modo Adaptativo</span>
+</section>
+<p class="aviso-demonstracao"><strong>Protótipo HTML + CSS:</strong> selecione Leve, Normal ou Intenso para visualizar diferentes listas de hábitos. A escolha não é salva e não modifica dados reais.</p>
+<section class="bloco modo-demo" aria-labelledby="titulo-modos">
+  <h2 id="titulo-modos">Como está seu ritmo hoje?</h2>
+  <p class="descricao">Escolha uma intensidade para visualizar a proposta do HabitFlow.</p>
+  <input id="modo-leve" type="radio" name="modo" value="leve">
+  <label class="opcao" for="modo-leve"><strong>🌿 Leve</strong><small>Priorize o essencial</small></label>
+  <input id="modo-normal" type="radio" name="modo" value="normal" checked>
+  <label class="opcao" for="modo-normal"><strong>☀️ Normal</strong><small>Seu ritmo habitual</small></label>
+  <input id="modo-intenso" type="radio" name="modo" value="intenso">
+  <label class="opcao" for="modo-intenso"><strong>⚡ Intenso</strong><small>Mais desafios opcionais</small></label>
+  <div class="rotinas" aria-live="off">
+    <div class="rotina rotina-leve">
+      <h3>Rotina Leve: 2 hábitos ativos</h3>
+      <p>O usuário concentra energia no essencial. As demais atividades aparecem como dispensas conceituais.</p>
+      <ul class="lista-rotina">
+        <li><strong>Estudar programação</strong><span class="indicacao">30 minutos</span></li>
+        <li><strong>Beber água</strong><span class="indicacao">2 litros</span></li>
+        <li><strong>Ler um livro</strong><span class="dispensa">Dispensado no exemplo</span></li>
+        <li><strong>Praticar exercícios</strong><span class="dispensa">Dispensado no exemplo</span></li>
+      </ul>
+    </div>
+    <div class="rotina rotina-normal">
+      <h3>Rotina Normal: 4 hábitos</h3>
+      <p>Mostra o conjunto habitual de atividades que a pessoa pretende realizar.</p>
+      <ul class="lista-rotina">
+        <li><strong>Estudar programação</strong><span class="indicacao">30 minutos</span></li>
+        <li><strong>Beber água</strong><span class="indicacao">2 litros</span></li>
+        <li><strong>Ler um livro</strong><span class="indicacao">15 minutos</span></li>
+        <li><strong>Praticar exercícios</strong><span class="indicacao">20 minutos</span></li>
+      </ul>
+    </div>
+    <div class="rotina rotina-intensa">
+      <h3>Rotina Intensa: 4 hábitos + 2 extras</h3>
+      <p>Mostra a rotina completa e tarefas opcionais para dias com mais tempo.</p>
+      <ul class="lista-rotina">
+        <li><strong>Estudar programação</strong><span class="indicacao">30 minutos</span></li>
+        <li><strong>Beber água</strong><span class="indicacao">2 litros</span></li>
+        <li><strong>Ler um livro</strong><span class="indicacao">15 minutos</span></li>
+        <li><strong>Praticar exercícios</strong><span class="indicacao">20 minutos</span></li>
+        <li><strong>Revisar conteúdos</strong><span class="indicacao">Extra opcional</span></li>
+        <li><strong>Organizar a semana</strong><span class="indicacao">Extra opcional</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="bloco" aria-labelledby="titulo-beneficio">
+  <h2 id="titulo-beneficio">Por que adaptar a rotina?</h2>
+  <p>Nem todo dia exige a mesma intensidade. O HabitFlow propõe ajustar a quantidade de atividades sem transformar um dia mais leve em fracasso.</p>
+  <p><strong>Na versão demonstrada:</strong> o HTML organiza os três cenários e o CSS faz a troca visual entre eles; o histórico e as sequências não são calculados.</p>
+  <a class="botao" href="dashboard.html">Ver exemplo de hábitos</a>
+</section>
 
-  <noscript>Ative o JavaScript para visualizar seus hábitos nesta página.</noscript>
-
+  </main>
+  <footer>HabitFlow • Protótipo acadêmico feito com HTML e CSS • Dados ilustrativos, sem armazenamento.</footer>
+</div>
 </body>
-
 </html>
