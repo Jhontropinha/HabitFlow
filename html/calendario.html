@@ -1,131 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="description" content="HabitFlow: demonstração visual de hábitos construída somente com HTML e CSS.">
   <title>Calendário | HabitFlow</title>
-
-  <!-- Reaproveita a identidade da dashboard; o segundo CSS cuida do calendário. -->
-
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/calendario.css">
-
-  <!-- inicio.js controla somente o tema e já existe no projeto. -->
-
-  <script src="../js/inicio.js" defer></script>
-  <script src="../js/calendario.js" type="module"></script>
-
+  <link rel="stylesheet" href="../css/apresentacao.css">
 </head>
-
 <body>
+<div class="painel">
+  <header class="cabecalho">
+    <a class="logo" href="index.html">HabitFlow</a>
+    <nav aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="dashboard.html">Hábitos</a>
+      <a href="meu-dia.html">Meu Dia</a>
+      <a href="calendario.html" aria-current="page">Calendário</a>
+      <a href="metas.html">Metas</a>
+    </nav>
+  </header>
+  <main>
 
-  <div class="painel">
-
-    <header class="cabecalho">
-
-      <a class="logo" href="index.html">HabitFlow</a>
-
-      <nav aria-label="Navegação principal">
-
-        <a href="dashboard.html">DashBoard</a>
-        <a href="calendario.html">Calendário</a>
-        <a href="metas.html">Metas</a>
-        <a href="index.html">Início</a>
-
-      </nav>
-
-      <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
-
-    </header>
-
-    <main>
-
-      <div class="titulo-pagina">
-
-        <div>
-
-          <p class="etiqueta">Sua constância ao longo do tempo</p>
-          <h1>Calendário</h1>
-          <p class="descricao">Escolha um dia e consulte seu histórico de hábitos e metas.</p>
-
-        </div>
-
-        <div class="acoes">
-
-          <a class="botao" href="dashboard.html#cadastro">+ Novo hábito</a>
-
-        </div>
-
-      </div>
-
-      <p id="mensagem" role="status" aria-live="polite"></p>
-
-      <section class="bloco" aria-labelledby="mes-atual">
-
-        <div class="controle-mes">
-
-          <h2 id="mes-atual" aria-live="polite"></h2>
-
-          <div class="acoes">
-
-            <button id="mes-anterior" class="secundario" type="button" aria-label="Mês anterior">←</button>
-            <button id="ir-hoje" class="secundario" type="button">Hoje</button>
-            <button id="mes-proximo" class="secundario" type="button" aria-label="Próximo mês">→</button>
-
-          </div>
-
-        </div>
-
-        <!-- A semana começa no domingo, como no calendário brasileiro. -->
-
-        <div class="semana" aria-hidden="true">
-
-          <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span>
-          <span>Qui</span><span>Sex</span><span>Sáb</span>
-
-        </div>
-
-        <div id="calendario" class="grade-dias" role="group" aria-label="Dias do mês"></div>
-
-        <!-- Os números nos dias também indicam o progresso, além das cores. -->
-
-        <ul class="legenda" aria-label="Legenda do calendário">
-
-          <li><span class="amostra sem-habitos"></span>Sem hábitos ou metas</li>
-          <li><span class="amostra pendente"></span>Nenhum concluído</li>
-          <li><span class="amostra parcial"></span>Parte concluída</li>
-          <li><span class="amostra completo"></span>Todos concluídos</li>
-          <li><span class="amostra dispensado"></span>Dia de pausa (Modo Leve)</li>
-
-        </ul>
-
-        <p class="nota">Em cada dia: atividades concluídas / atividades exigidas. Dispensas não são conclusões.</p>
-
-      </section>
-
-      <section class="bloco" aria-labelledby="titulo-dia">
-
-        <h2 id="titulo-dia"></h2>
-        <p id="resumo-dia" role="status" aria-live="polite"></p>
-        <ul id="historico" class="historico"></ul>
-        <p class="nota">Para marcar ou corrigir uma conclusão, selecione a data na <a
-            href="dashboard.html">dashboard</a>. Para registrar o progresso de uma meta, abra <a href="metas.html">Metas</a>.</p>
-
-      </section>
-
-    </main>
-
-    <footer>Histórico dos hábitos ainda cadastrados, considerando a frequência atual. Dados salvos neste navegador.
-
-    </footer>
-
+<section class="destaque-dia">
+  <div>
+    <p class="etiqueta">Visualize sua constância</p>
+    <h1>Calendário</h1>
+    <p class="descricao">Uma forma simples de enxergar realizações e dias de pausa.</p>
   </div>
+  <span class="selo-demonstracao">Novembro de 2026</span>
+</section>
+<p class="aviso-demonstracao"><strong>Calendário demonstrativo:</strong> as datas e os indicadores foram escritos em HTML. As cores são definidas por CSS, sem atualização automática. Todos os dias levam ao mesmo exemplo de histórico.</p>
+<section class="bloco" aria-labelledby="titulo-mes">
+  <h2 id="titulo-mes">Novembro de 2026</h2>
+  <p class="descricao">Exemplo visual de um mês com hábitos concluídos, parciais e dispensados.</p>
+  <div class="calendario-estatico" aria-label="Calendário ilustrativo de novembro de 2026">
+    <span class="semana-dia">Dom</span>
+<span class="semana-dia">Seg</span>
+<span class="semana-dia">Ter</span>
+<span class="semana-dia">Qua</span>
+<span class="semana-dia">Qui</span>
+<span class="semana-dia">Sex</span>
+<span class="semana-dia">Sáb</span>
+    <a class="parcial" href="#dia-exemplo" aria-label="Dia 1 de novembro; ver histórico ilustrativo"><strong>1</strong><small>1/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 2 de novembro; ver histórico ilustrativo"><strong>2</strong><small>2/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 3 de novembro; ver histórico ilustrativo"><strong>3</strong><small>2/2</small></a>
+<a class="parcial" href="#dia-exemplo" aria-label="Dia 4 de novembro; ver histórico ilustrativo"><strong>4</strong><small>1/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 5 de novembro; ver histórico ilustrativo"><strong>5</strong><small>2/2</small></a>
+<a class="dispensado" href="#dia-exemplo" aria-label="Dia 6 de novembro; ver histórico ilustrativo"><strong>6</strong><small>Leve</small></a>
+<a class="parcial" href="#dia-exemplo" aria-label="Dia 7 de novembro; ver histórico ilustrativo"><strong>7</strong><small>1/2</small></a>
+<a class="pendente" href="#dia-exemplo" aria-label="Dia 8 de novembro; ver histórico ilustrativo"><strong>8</strong><small>0/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 9 de novembro; ver histórico ilustrativo"><strong>9</strong><small>2/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 10 de novembro; ver histórico ilustrativo"><strong>10</strong><small>2/2</small></a>
+<a class="parcial" href="#dia-exemplo" aria-label="Dia 11 de novembro; ver histórico ilustrativo"><strong>11</strong><small>1/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 12 de novembro; ver histórico ilustrativo"><strong>12</strong><small>2/2</small></a>
+<a class="completo" href="#dia-exemplo" aria-label="Dia 13 de novembro; ver histórico ilustrativo"><strong>13</strong><small>2/2</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 14 de novembro; ver histórico ilustrativo"><strong>14</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 15 de novembro; ver histórico ilustrativo"><strong>15</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 16 de novembro; ver histórico ilustrativo"><strong>16</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 17 de novembro; ver histórico ilustrativo"><strong>17</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 18 de novembro; ver histórico ilustrativo"><strong>18</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 19 de novembro; ver histórico ilustrativo"><strong>19</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 20 de novembro; ver histórico ilustrativo"><strong>20</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 21 de novembro; ver histórico ilustrativo"><strong>21</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 22 de novembro; ver histórico ilustrativo"><strong>22</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 23 de novembro; ver histórico ilustrativo"><strong>23</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 24 de novembro; ver histórico ilustrativo"><strong>24</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 25 de novembro; ver histórico ilustrativo"><strong>25</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 26 de novembro; ver histórico ilustrativo"><strong>26</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 27 de novembro; ver histórico ilustrativo"><strong>27</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 28 de novembro; ver histórico ilustrativo"><strong>28</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 29 de novembro; ver histórico ilustrativo"><strong>29</strong><small>—</small></a>
+<a class="" href="#dia-exemplo" aria-label="Dia 30 de novembro; ver histórico ilustrativo"><strong>30</strong><small>—</small></a>
+  </div>
+  <ul class="legenda-estatica" aria-label="Legenda">
+    <li class="feito">Concluído</li>
+    <li class="parte">Parcial</li>
+    <li class="pausa">Dispensado</li>
+    <li>Pendente ou não preenchido</li>
+  </ul>
+</section>
+<section class="bloco" id="dia-exemplo" aria-labelledby="historico">
+  <h2 id="historico">Exemplo de histórico — 13 de novembro</h2>
+  <p class="descricao">Exemplo fictício do que uma página de histórico pode mostrar.</p>
+  <div class="exemplo-dia">
+    <details open><summary>✓ Estudar programação — concluído</summary><p>Estudos • 30 minutos • Atividade programada</p></details>
+    <details><summary>✓ Beber água — concluído</summary><p>Saúde • Meta ilustrativa de 2 litros</p></details>
+    <details><summary>○ Ler um livro — pendente</summary><p>Pessoal • 15 minutos • Atividade programada</p></details>
+    <details><summary>◌ Praticar exercícios — dispensado no exemplo</summary><p>Exemplo do conceito de Modo Leve: a dispensa não equivale a uma conclusão.</p></details>
+  </div>
+  <p class="nota-interacao">Os blocos abrem e fecham usando o elemento HTML &lt;details&gt;, sem JavaScript.</p>
+</section>
 
-  <noscript>Ative o JavaScript para consultar seu calendário.</noscript>
-
+  </main>
+  <footer>HabitFlow • Protótipo acadêmico feito com HTML e CSS • Dados ilustrativos, sem armazenamento.</footer>
+</div>
 </body>
-
 </html>
