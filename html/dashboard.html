@@ -1,231 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Dashboard | HabitFlow</title>
-
+  <meta name="description" content="HabitFlow: protótipo de interface para organizar hábitos, desenvolvido somente com HTML e CSS.">
+  <title>Meus hábitos | HabitFlow</title>
   <link rel="stylesheet" href="../css/dashboard.css">
-<!--Gerenciamento dos habitos -->
-  <script src="../js/script.js" defer></script>
-
-  <!--Exportação e Importação de Backup-->
-  <script src="../js/backup.js" type="module"></script>
-
-  
-
+  <link rel="stylesheet" href="../css/apresentacao.css">
 </head>
-
 <body>
-
-  <div class="painel">
-
-    <!-- Navegação e tema; os hábitos continuam usando o script atual. -->
-
-    <header class="cabecalho">
-
-      <a class="logo" href="index.html">HabitFlow</a>
-
-      <nav aria-label="Navegação principal">
-
-        <a href="#rotina">Hábitos</a>
-        <a href="#progresso">Estatísticas</a>
-        <a href="index.html">Início</a>
-        <a href="calendario.html">Calendário</a>
-        <a href="metas.html">Metas</a>
-        <a href="meu-dia.html">Meu Dia</a>
-
-      </nav>
-
-      <button id="tema" type="button" aria-pressed="false">Modo escuro</button>
-
-    </header>
-
-    <main>
-
-      <!-- Os cartões são preenchidos com os registros reais do navegador. -->
-
-      <section id="rotina" aria-labelledby="titulo-rotina">
-
-        <div class="titulo-pagina">
-
-          <div>
-
-            <p class="etiqueta">Um hábito de cada vez</p>
-            <h1 id="titulo-rotina">Meus hábitos</h1>
-            <p class="descricao">Organize seu dia e acompanhe suas conquistas.</p>
-
-          </div>
-
-          <div class="acoes">
-
-            <a class="botao" href="#cadastro">+ Novo hábito</a>
-
-            <button id="exportar" class="secundario" type="button">
-              Exportar backup
-            </button>
-
-            <button id="importar" class="secundario" type="button">
-              Importar backup
-            </button>
-
-            <input id="arquivo-backup" type="file" accept=".json,application/json" hidden>
-
-          </div>
-
-        </div>
-
-        <div class="colunas">
-
-          <div>
-
-            <label for="data">Data</label>
-            <input id="data" type="date" required>
-
-          </div>
-
-          <div>
-
-            <label for="filtro">Mostrar</label>
-
-            <select id="filtro">
-
-              <option value="todos">Todos os hábitos</option>
-              <option value="pendentes">Pendentes</option>
-              <option value="concluidos">Concluídos</option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-        <ul id="lista" class="lista-habitos"></ul>
-
-        <p id="lista-vazia" class="estado-vazio">
-
-          Você ainda não tem hábitos cadastrados.
-
-        </p>
-
-      </section>
-
-      <p id="mensagem" role="status" aria-live="polite"></p>
-
-      <!-- Mantém cadastro e edição disponíveis, sem alterar os dados salvos. -->
-
-      <section id="cadastro" class="bloco" aria-labelledby="titulo-formulario">
-
-        <h2 id="titulo-formulario">Novo hábito</h2>
-
-        <form id="formulario">
-
-          <label for="nome">Nome do hábito</label>
-
-          <input id="nome" type="text" placeholder="Ex.: Estudar programação" maxlength="60" required>
-
-          <div class="colunas">
-
-            <div>
-
-              <label for="categoria">Categoria</label>
-              <select id="categoria">
-
-                <option>Saúde</option>
-                <option>Estudos</option>
-                <option>Pessoal</option>
-                <option>Bem-estar</option>
-
-              </select>
-
-            </div>
-
-            <div>
-
-              <label for="frequencia">Frequência</label>
-
-              <select id="frequencia">
-
-                <option value="diario">Todos os dias</option>
-                <option value="semana">Segunda a sexta</option>
-                <option value="fim-semana">Sábado e domingo</option>
-
-              </select>
-
-            </div>
-
-          </div>
-
-          <label for="meta">Meta</label>
-
-          <input id="meta" type="text" placeholder="Ex.: Estudar por 30 minutos" maxlength="80" required>
-
-          <div class="acoes">
-
-            <button id="salvar" type="submit">
-
-              Adicionar hábito
-
-            </button>
-
-            <button id="cancelar" class="secundario" type="button" hidden>
-
-              Cancelar edição
-
-            </button>
-
-          </div>
-
-        </form>
-
-      </section>
-
-      <section id="progresso" class="bloco" aria-labelledby="titulo-progresso">
-
-        <h2 id="titulo-progresso">Meu progresso</h2>
-        <p>Acompanhe suas atividades e mantenha a constância.</p>
-
-        <div class="progresso">
-
-          <div>
-
-            <label for="barra-dia">Dia selecionado</label>
-            <progress id="barra-dia" value="0" max="100"></progress>
-            <p id="texto-dia">0 de 0 concluídos (0%)</p>
-
-          </div>
-
-          <div>
-
-            <label for="barra-semana">Semana atual até hoje</label>
-            <progress id="barra-semana" value="0" max="100"></progress>
-            <p id="texto-semana">0 de 0 concluídos (0%)</p>
-
-          </div>
-
-          <div>
-
-            <label for="barra-mes">Mês atual até hoje</label>
-            <progress id="barra-mes" value="0" max="100"></progress>
-            <p id="texto-mes">0 de 0 concluídos (0%)</p>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
-
-    <footer>Seus hábitos ficam salvos neste navegador.</footer>
-
+<div class="painel">
+  <header class="cabecalho">
+    <a class="logo" href="index.html">HabitFlow</a>
+    <nav aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="dashboard.html" aria-current="page">Hábitos</a>
+      <a href="meu-dia.html">Meu Dia</a>
+      <a href="calendario.html">Calendário</a>
+      <a href="metas.html">Metas</a>
+    </nav>
+  </header>
+  <main>
+
+<section class="destaque-dia">
+  <div>
+    <p class="etiqueta">Pequenos passos todos os dias</p>
+    <h1>Meus hábitos</h1>
+    <p class="descricao">Uma visão clara da rotina, das tarefas e da sua evolução.</p>
   </div>
+  <a class="botao" href="meu-dia.html">Abrir Meu Dia</a>
+</section>
+<p class="aviso-demonstracao"><strong>Demonstração visual:</strong> estes hábitos e indicadores são exemplos fictícios. Você pode marcar caixas para visualizar o estilo, mas as alterações não ficam salvas.</p>
+<section class="metricas" aria-label="Resumo ilustrativo">
+  <article class="metrica"><strong>4</strong><span>hábitos de exemplo</span></article>
+  <article class="metrica"><strong>2/4</strong><span>conclusões ilustrativas</span></article>
+  <article class="metrica"><strong>50%</strong><span>progresso de exemplo</span></article>
+</section>
+<section class="bloco" aria-labelledby="titulo-habitos">
+  <div class="titulo-com-acao">
+    <h2 id="titulo-habitos">Uma rotina possível</h2>
+    <span class="selo-demonstracao">Exemplo de dashboard</span>
+  </div>
+  <div class="grade-cartoes">
+    <article class="habito-demo">
+      <label><input type="checkbox" checked><span>Estudar programação</span></label>
+      <p>Estudos • Segunda a sexta • Meta: 30 minutos</p>
+    </article>
+    <article class="habito-demo">
+      <label><input type="checkbox" checked><span>Beber água</span></label>
+      <p>Saúde • Todos os dias • Meta: 2 litros</p>
+    </article>
+    <article class="habito-demo">
+      <label><input type="checkbox"><span>Ler um livro</span></label>
+      <p>Pessoal • Todos os dias • Meta: 15 minutos</p>
+    </article>
+    <article class="habito-demo">
+      <label><input type="checkbox"><span>Praticar exercícios</span></label>
+      <p>Saúde • Segunda a sexta • Meta: 20 minutos</p>
+    </article>
+  </div>
+  <p class="nota-interacao">As caixas são interativas apenas visualmente; as métricas acima não se recalculam sem JavaScript.</p>
+</section>
+<section class="bloco" aria-labelledby="titulo-estatisticas">
+  <h2 id="titulo-estatisticas">Estatísticas ilustrativas</h2>
+  <p class="descricao">Um exemplo de como o HabitFlow poderia mostrar a evolução ao longo do tempo.</p>
+  <div class="progresso-ilustrativo">
+    <label for="p-dia">Hoje • 50%</label><progress id="p-dia" value="50" max="100">50%</progress>
+    <label for="p-semana">Esta semana • 70%</label><progress id="p-semana" value="70" max="100">70%</progress>
+    <label for="p-mes">Este mês • 62%</label><progress id="p-mes" value="62" max="100">62%</progress>
+    <small>Os valores são demonstrativos; não representam medições automáticas.</small>
+  </div>
+</section>
+<section class="secao-explicacao" aria-labelledby="como-funciona">
+  <h2 id="como-funciona">A proposta do HabitFlow</h2>
+  <p>O usuário define hábitos, visualiza sua rotina e acompanha conquistas. Nesta apresentação em HTML e CSS mostramos a interface e a experiência planejada, sem simular salvamento real de dados.</p>
+  <a class="botao" href="meu-dia.html">Conhecer o Modo Adaptativo</a>
+</section>
 
-  <noscript>Ative o JavaScript para usar o HabitFlow.</noscript>
-
+  </main>
+  <footer>HabitFlow • Protótipo acadêmico feito com HTML e CSS • Dados ilustrativos, sem armazenamento.</footer>
+</div>
 </body>
-
 </html>
