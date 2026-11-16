@@ -22,6 +22,35 @@ O site oferece cinco páginas interligadas:
 
 A navegação funciona por links HTML. As mudanças visuais são feitas com CSS. **Nesta versão, os registros não são salvos e os indicadores não são atualizados automaticamente**, pois o trabalho foi desenvolvido apenas com HTML e CSS.
 
+## Capturas reais do site
+
+As imagens abaixo foram capturadas diretamente da versão publicada no [GitHub Pages](https://jhontropinha.github.io/HabitFlow/) usando Chromium. O projeto contém cinco telas principais, além da adaptação para celular.
+
+### Página inicial
+
+<img src="screenshots/inicio.png" alt="Página inicial do HabitFlow no computador" width="800">
+
+### Dashboard — hábitos
+
+<img src="screenshots/dashboard.png" alt="Dashboard do HabitFlow com cartões de hábitos" width="800">
+
+### Meu Dia — Modo Adaptativo
+
+<img src="screenshots/meu-dia.png" alt="Página Meu Dia do HabitFlow com opções de rotina" width="800">
+
+### Calendário
+
+<img src="screenshots/calendario.png" alt="Calendário ilustrativo do HabitFlow" width="800">
+
+### Metas
+
+<img src="screenshots/metas.png" alt="Página de metas do HabitFlow com barras de progresso" width="800">
+
+### Versão para celular
+
+<img src="screenshots/inicio-celular.png" alt="Página inicial do HabitFlow no celular" width="260">
+<img src="screenshots/meu-dia-celular.png" alt="Página Meu Dia do HabitFlow no celular" width="260">
+
 ## Tecnologias utilizadas
 
 - **HTML5:** estrutura semântica, navegação, cabeçalhos, listas, cartões, botões de opção (`radio`), caixas de seleção e elementos nativos como `details` e `progress`.
