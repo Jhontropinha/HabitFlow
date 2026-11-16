@@ -1,6 +1,26 @@
-# HabitFlow — Protótipo acadêmico em HTML e CSS
+# HabitFlow — Organize sua rotina no seu ritmo
 
-O **HabitFlow** é uma proposta de interface para organizar hábitos e adaptar a rotina à disponibilidade do usuário. O diferencial é o **Meu Dia**, que demonstra três intensidades: **Leve, Normal e Intenso**.
+**Protótipo acadêmico desenvolvido com HTML5 e CSS3.**
+
+## O que é o HabitFlow?
+
+O **HabitFlow** é um protótipo de site para organização de hábitos e visualização de metas. Sua proposta é ajudar as pessoas a planejar atividades do dia a dia de forma simples, com uma interface clara e adaptável a diferentes rotinas.
+
+## Qual problema o projeto pretende resolver?
+
+Nem todos os dias temos a mesma quantidade de tempo ou energia. Manter exatamente a mesma rotina pode dificultar a constância. Por isso, o HabitFlow apresenta o conceito de **Modo Adaptativo**: a pessoa pode visualizar uma rotina **Leve**, **Normal** ou **Intensa**, conforme seu ritmo do dia.
+
+## Como funciona?
+
+O site oferece cinco páginas interligadas:
+
+1. **Início:** apresenta o projeto, os benefícios e as principais seções.
+2. **Dashboard (Hábitos):** mostra cartões e indicadores fictícios de acompanhamento.
+3. **Meu Dia:** permite selecionar visualmente os modos Leve, Normal e Intenso; a lista exibida muda com CSS.
+4. **Calendário:** apresenta um mês ilustrativo com diferentes estados e um histórico fictício do dia 13.
+5. **Metas:** exibe objetivos de exemplo e barras de progresso.
+
+A navegação funciona por links HTML. As mudanças visuais são feitas com CSS. **Nesta versão, os registros não são salvos e os indicadores não são atualizados automaticamente**, pois o trabalho foi desenvolvido apenas com HTML e CSS.
 
 ## Tecnologias utilizadas
 
@@ -94,6 +114,16 @@ O repositório é público, mas o GitHub Pages precisa estar habilitado nas conf
 **Encerramento:** “Nesta etapa entregamos a interface responsiva em HTML e CSS. Em uma evolução futura, a aplicação poderia usar JavaScript e armazenamento para cadastrar hábitos e calcular o progresso real.”
 
 **Entrega do projeto:** 16/11/2026 à noite. **Apresentação:** 17/11/2026.
+
+## Quem desenvolveu?
+
+O HabitFlow é um **projeto acadêmico desenvolvido em equipe**.
+
+- **Repositório do projeto:** [@Jhontropinha](https://github.com/Jhontropinha), proprietário do repositório [Jhontropinha/HabitFlow](https://github.com/Jhontropinha/HabitFlow).
+- **Contribuições registradas no GitHub:** [@LuizBraga321](https://github.com/LuizBraga321).
+- **Integrantes da equipe:** _preencher com os nomes completos de todos os participantes antes da entrega_.
+
+> Os perfis e commits do GitHub não são suficientes para identificar com segurança todos os integrantes do trabalho acadêmico.
 
 ## Repositório
 
