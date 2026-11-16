@@ -348,6 +348,14 @@ details p {
 
 /* Em telas menores, coloca a apresentação e os cards em uma coluna. */
 @media (max-width: 960px) {
+  .cabecalho {
+    flex-wrap: wrap;
+    gap: 18px 24px;
+  }
+  .cabecalho nav {
+    flex-wrap: wrap;
+    gap: 10px 18px;
+  }
   .apresentacao {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -381,7 +389,8 @@ details p {
   .cabecalho nav {
     order: 3;
     width: 100%;
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: 10px 16px;
   }
 
   .acesso {
