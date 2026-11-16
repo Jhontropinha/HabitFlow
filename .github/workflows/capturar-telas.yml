@@ -1,0 +1,116 @@
+name: Capturar telas do HabitFlow para o README
+
+on:
+  push:
+    paths:
+      - ".github/workflows/capturar-telas.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  capturas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Obter arquivos do projeto
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Instalar navegador Chromium para capturas
+        run: npx --yes playwright@1.56.1 install --with-deps chromium
+
+      - name: Confirmar que o GitHub Pages está acessível
+        run: |
+          curl --fail --location --silent --show-error --retry 8 --retry-delay 8 \
+            "https://jhontropinha.github.io/HabitFlow/html/index.html" \
+            --output /tmp/habitflow-publicado.html
+          grep -q "HabitFlow" /tmp/habitflow-publicado.html
+
+      - name: Capturar cinco páginas reais em desktop
+        run: |
+          mkdir -p screenshots
+          BASE="https://jhontropinha.github.io/HabitFlow/html"
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="1365,900" --wait-for-timeout=700 "$BASE/index.html" screenshots/inicio.png
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="1365,900" --wait-for-timeout=700 "$BASE/dashboard.html" screenshots/dashboard.png
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="1365,900" --wait-for-timeout=700 "$BASE/meu-dia.html" screenshots/meu-dia.png
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="1365,900" --wait-for-timeout=700 "$BASE/calendario.html" screenshots/calendario.png
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="1365,900" --wait-for-timeout=700 "$BASE/metas.html" screenshots/metas.png
+
+      - name: Capturar início e Meu Dia em celular
+        run: |
+          BASE="https://jhontropinha.github.io/HabitFlow/html"
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="390,844" --wait-for-timeout=700 "$BASE/index.html" screenshots/inicio-celular.png
+          npx --yes playwright@1.56.1 screenshot --browser chromium --full-page --viewport-size="390,844" --wait-for-timeout=700 "$BASE/meu-dia.html" screenshots/meu-dia-celular.png
+
+      - name: Criar galeria de imagens no README
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("README.md")
+          readme = path.read_text(encoding="utf-8")
+          marker = "## Tecnologias utilizadas"
+          gallery = """## Capturas reais do site
+
+          As imagens abaixo foram capturadas diretamente da versão publicada no [GitHub Pages](https://jhontropinha.github.io/HabitFlow/) usando Chromium. O projeto contém cinco telas principais, além da adaptação para celular.
+
+          ### Página inicial
+
+          <img src="screenshots/inicio.png" alt="Página inicial do HabitFlow no computador" width="800">
+
+          ### Dashboard — hábitos
+
+          <img src="screenshots/dashboard.png" alt="Dashboard do HabitFlow com cartões de hábitos" width="800">
+
+          ### Meu Dia — Modo Adaptativo
+
+          <img src="screenshots/meu-dia.png" alt="Página Meu Dia do HabitFlow com opções de rotina" width="800">
+
+          ### Calendário
+
+          <img src="screenshots/calendario.png" alt="Calendário ilustrativo do HabitFlow" width="800">
+
+          ### Metas
+
+          <img src="screenshots/metas.png" alt="Página de metas do HabitFlow com barras de progresso" width="800">
+
+          ### Versão para celular
+
+          <img src="screenshots/inicio-celular.png" alt="Página inicial do HabitFlow no celular" width="260">
+          <img src="screenshots/meu-dia-celular.png" alt="Página Meu Dia do HabitFlow no celular" width="260">
+
+          """
+
+          if marker not in readme:
+              raise SystemExit("Seção de tecnologias não encontrada no README")
+          if "## Capturas reais do site" not in readme:
+              readme = readme.replace(marker, gallery + marker, 1)
+          path.write_text(readme, encoding="utf-8")
+          PY
+
+      - name: Verificar capturas geradas
+        run: |
+          test "$(find screenshots -maxdepth 1 -name '*.png' | wc -l)" -eq 7
+          ls -lh screenshots
+
+      - name: Disponibilizar backup das capturas
+        uses: actions/upload-artifact@v4
+        with:
+          name: habitflow-screenshots
+          path: screenshots/*.png
+          retention-days: 7
+
+      - name: Salvar capturas e README no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md screenshots/
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: adicionar capturas reais das telas ao README"
+            git push origin HEAD:main
+          fi
