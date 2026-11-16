@@ -65,7 +65,7 @@ footer { margin-top: 35px; }
   .metricas, .grade-cartoes { grid-template-columns: 1fr; }
   .modo-demo .opcao { display: flex; width: 100%; min-height: auto; margin-right: 0; }
   .calendario-estatico { gap: 4px; }
-  .calendario-estatico a, .calendario-estatico .vazio { min-height: 55px; font-size: 13px; }
+  .calendario-estatico .dia, .calendario-estatico .vazio { min-height: 55px; font-size: 13px; }
   .calendario-estatico a small { font-size: 9px; }
 }
 
